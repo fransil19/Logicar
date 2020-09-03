@@ -57,10 +57,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AltaEmpleado.resx">
       <DependentUpon>AltaEmpleado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -86,11 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
-      <Project>{a8716281-e1e5-47cb-8da5-7c4ce95702ea}</Project>
+      <Project>{6b83b5f1-c5ba-45e7-96e5-3fe35684f4bf}</Project>
       <Name>BE</Name>
     </ProjectReference>
     <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{cfe3283f-c49c-41db-9f0a-4e82af531b21}</Project>
+      <Project>{0a7ac8c6-1dd1-4bf1-b7dd-2cfffc6db99c}</Project>
       <Name>BLL</Name>
     </ProjectReference>
   </ItemGroup>

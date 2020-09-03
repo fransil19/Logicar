@@ -11,7 +11,7 @@ namespace DAL
     {
         public static SqlConnection instancia = null;
 
-        private SqlConnection getInstancia()
+        private SqlConnection GetInstancia()
         {
             if(instancia == null)
             {
@@ -21,9 +21,9 @@ namespace DAL
             return instancia;
         }
 
-        public SqlConnection conectar()
+        public SqlConnection Conectar()
         {
-            SqlConnection conexion = getInstancia();
+            SqlConnection conexion = GetInstancia();
 
             if (conexion.State == System.Data.ConnectionState.Closed)
             {
@@ -33,9 +33,9 @@ namespace DAL
             return conexion;
         }
 
-        public void desconectar()
+        public void Desconectar()
         {
-            SqlConnection conexion = getInstancia();
+            SqlConnection conexion = GetInstancia();
 
             if (conexion.State == System.Data.ConnectionState.Open)
             {
