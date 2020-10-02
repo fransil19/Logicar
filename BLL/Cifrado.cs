@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace UI
+namespace BLL
 {
-    public class Cifrado
+    public static class Cifrado
     {
         public static string Encriptar(String cadena, Boolean metodo)
         {

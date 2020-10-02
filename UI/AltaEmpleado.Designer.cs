@@ -67,9 +67,9 @@
             this.label9.Font = new System.Drawing.Font("Monotype Corsiva", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(31, 41);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(228, 45);
+            this.label9.Size = new System.Drawing.Size(256, 45);
             this.label9.TabIndex = 74;
-            this.label9.Text = "Alta de Familia";
+            this.label9.Text = "Alta de Empleado";
             // 
             // groupBox1
             // 
@@ -101,7 +101,7 @@
             this.cmbTDoc.FormattingEnabled = true;
             this.cmbTDoc.Location = new System.Drawing.Point(127, 87);
             this.cmbTDoc.Name = "cmbTDoc";
-            this.cmbTDoc.Size = new System.Drawing.Size(208, 21);
+            this.cmbTDoc.Size = new System.Drawing.Size(294, 21);
             this.cmbTDoc.TabIndex = 89;
             // 
             // txtTelefono
@@ -109,7 +109,7 @@
             this.txtTelefono.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtTelefono.Location = new System.Drawing.Point(127, 205);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(208, 20);
+            this.txtTelefono.Size = new System.Drawing.Size(294, 20);
             this.txtTelefono.TabIndex = 88;
             // 
             // txtEmail
@@ -117,7 +117,7 @@
             this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtEmail.Location = new System.Drawing.Point(127, 177);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(208, 20);
+            this.txtEmail.Size = new System.Drawing.Size(294, 20);
             this.txtEmail.TabIndex = 87;
             // 
             // txtDomicilio
@@ -125,7 +125,7 @@
             this.txtDomicilio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtDomicilio.Location = new System.Drawing.Point(127, 147);
             this.txtDomicilio.Name = "txtDomicilio";
-            this.txtDomicilio.Size = new System.Drawing.Size(208, 20);
+            this.txtDomicilio.Size = new System.Drawing.Size(294, 20);
             this.txtDomicilio.TabIndex = 86;
             // 
             // label8
@@ -163,7 +163,7 @@
             this.txtNroDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtNroDoc.Location = new System.Drawing.Point(127, 117);
             this.txtNroDoc.Name = "txtNroDoc";
-            this.txtNroDoc.Size = new System.Drawing.Size(208, 20);
+            this.txtNroDoc.Size = new System.Drawing.Size(294, 20);
             this.txtNroDoc.TabIndex = 82;
             // 
             // txtApellido
@@ -171,7 +171,7 @@
             this.txtApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtApellido.Location = new System.Drawing.Point(127, 57);
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(208, 20);
+            this.txtApellido.Size = new System.Drawing.Size(294, 20);
             this.txtApellido.TabIndex = 80;
             // 
             // label4
@@ -219,7 +219,7 @@
             this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.txtNombre.Location = new System.Drawing.Point(127, 28);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(208, 20);
+            this.txtNombre.Size = new System.Drawing.Size(294, 20);
             this.txtNombre.TabIndex = 76;
             // 
             // btnAceptar

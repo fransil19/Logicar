@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Idioma
+    public class Etiqueta
     {
         private int _id;
 
@@ -16,7 +16,6 @@ namespace BE
             set { _id = value; }
         }
 
-
         private string _nombre;
 
         public string Nombre
@@ -24,16 +23,6 @@ namespace BE
             get { return _nombre; }
             set { _nombre = value; }
         }
-
-        private bool _default;
-
-        public bool Default
-        {
-            get { return _default; }
-            set { _default = value; }
-        }
-
-
 
     }
 }

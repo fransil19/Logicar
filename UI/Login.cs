@@ -12,11 +12,13 @@ namespace UI
 {
     public partial class Login : Form
     {
+        BLL.Usuario _usuarioBLL;
         public Login()
         {
             //Pruebo la conexion a la base para saber si esta activa.
 
             //
+            _usuarioBLL = new BLL.Usuario();
             InitializeComponent();
         }
 
@@ -30,8 +32,12 @@ namespace UI
                 return;
             }
 
-            //Verifico integridad de la base
-            
+            string resultadoLogin = _usuarioBLL.Login(txtUsuario.Text, txtPass.Text);
+
+
+
+
+
         }
     }
 }

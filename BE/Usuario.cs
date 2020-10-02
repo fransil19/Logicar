@@ -8,6 +8,21 @@ namespace BE
 {
     public class Usuario
     {
+        List<Permiso> _permisos;
+        public Usuario()
+        {
+            _permisos = new List<Permiso>();
+        }
+
+        public List<Permiso> Permisos
+        {
+            get
+            {
+                return _permisos;
+            }
+        }
+
+
         private int _id;
 
         public int id
@@ -56,9 +71,9 @@ namespace BE
             set { _estado = value; }
         }
 
-        private int _dvh;
+        private long _dvh;
 
-        public int dvh
+        public long dvh
         {
             get { return _dvh; }
             set { _dvh = value; }

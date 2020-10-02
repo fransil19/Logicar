@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE
+namespace Services
 {
-    public class Class1
+    public interface IIdiomaObserver
     {
+        //void UpdateLanguage(IIdioma idioma);
+
     }
 }

@@ -8,9 +8,11 @@ namespace BLL
 {
     public class Empleado
     {
+        DAL.Empleado _empleadoDal;
+
         public Empleado()
         {
-
+            _empleadoDal = new DAL.Empleado();
         }
 
         public void altaEmpleado(BE.Empleado emp)
@@ -31,7 +33,11 @@ namespace BLL
             return;
         }
 
-
+        public List<BE.Empleado> ListarEmpleados()
+        {
+            List<BE.Empleado> lista = _empleadoDal.ListarEmpleados();
+            return lista;
+        }
 
 
     }

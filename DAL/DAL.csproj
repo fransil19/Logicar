@@ -43,12 +43,19 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Conexion.cs" />
+    <Compile Include="Empleado.cs" />
+    <Compile Include="Permiso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Usuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
       <Project>{6b83b5f1-c5ba-45e7-96e5-3fe35684f4bf}</Project>
       <Name>BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{a72a86de-6aa9-4652-9ec9-85eb88224b5b}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

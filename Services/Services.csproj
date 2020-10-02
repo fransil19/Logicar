@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0A7AC8C6-1DD1-4BF1-B7DD-2CFFFC6DB99C}</ProjectGuid>
+    <ProjectGuid>{A72A86DE-6AA9-4652-9EC9-85EB88224B5B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BLL</RootNamespace>
-    <AssemblyName>BLL</AssemblyName>
+    <RootNamespace>Services</RootNamespace>
+    <AssemblyName>Services</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,27 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bitacora.cs" />
-    <Compile Include="Cifrado.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="DigitoVerificador.cs" />
-    <Compile Include="Empleado.cs" />
-    <Compile Include="Permiso.cs" />
+    <Compile Include="IIdiomaObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Usuario.cs" />
+    <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
       <Project>{6b83b5f1-c5ba-45e7-96e5-3fe35684f4bf}</Project>
       <Name>BE</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{55e5aa7c-e370-4e7a-93e9-b1cfac31a2c1}</Project>
-      <Name>DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{a72a86de-6aa9-4652-9ec9-85eb88224b5b}</Project>
-      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

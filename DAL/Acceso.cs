@@ -16,22 +16,34 @@ namespace DAL
         public Acceso()
         {
             tabla = new DataTable();
+            con = Conexion.GetInstancia();
         }
 
         public void ExecuteNonQuery(String query)
         {
-            SqlCommand comando = new SqlCommand(query, con.Conectar());
+            con.Conectar();
+            SqlCommand comando = new SqlCommand(query, con._con);
             comando.ExecuteNonQuery();
             con.Desconectar();
         }
 
         public DataTable ExecuteReader(String query)
         {
-            SqlCommand comando = new SqlCommand(query, con.Conectar());
+            con.Conectar();
+            SqlCommand comando = new SqlCommand(query, con._con);
             SqlDataReader lector = comando.ExecuteReader();
             tabla.Load(lector);
             con.Desconectar();
             return tabla;
+        }
+
+        public int ExecuteScalar(String query)
+        {
+            con.Conectar();
+            SqlCommand comando = new SqlCommand(query, con._con);
+            var id = comando.ExecuteScalar();
+            con.Desconectar();
+            return (int)id;
         }
     }
 }

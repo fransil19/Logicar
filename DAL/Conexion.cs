@@ -9,37 +9,40 @@ namespace DAL
 {
     public class Conexion
     {
-        public static SqlConnection instancia = null;
+        public static Conexion _instancia = null;
+        public SqlConnection _con;
 
-        private SqlConnection GetInstancia()
+        private Conexion()
         {
-            if(instancia == null)
+            _con = new SqlConnection("Data Source=DESKTOP-3LN0IH6;Initial Catalog=Diploma;Integrated Security=True");
+        }
+
+        public static Conexion GetInstancia()
+        {
+            if(_instancia == null)
             {
-                instancia = new SqlConnection();
+                _instancia = new Conexion();
             }
 
-            return instancia;
+            return _instancia;
         }
 
         public SqlConnection Conectar()
         {
-            SqlConnection conexion = GetInstancia();
 
-            if (conexion.State == System.Data.ConnectionState.Closed)
+            if (_con.State == System.Data.ConnectionState.Closed)
             {
-                conexion.Open();
+                _con.Open();
             }
 
-            return conexion;
+            return _con;
         }
 
         public void Desconectar()
         {
-            SqlConnection conexion = GetInstancia();
-
-            if (conexion.State == System.Data.ConnectionState.Open)
+            if (_con.State == System.Data.ConnectionState.Open)
             {
-                conexion.Close();
+                _con.Close();
             }
         }
     }

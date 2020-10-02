@@ -40,10 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Bitacora.cs" />
     <Compile Include="DigitoVerificador.cs" />
     <Compile Include="Empleado.cs" />
+    <Compile Include="Etiqueta.cs" />
+    <Compile Include="Familia.cs" />
     <Compile Include="Idioma.cs" />
+    <Compile Include="Patente.cs" />
+    <Compile Include="Permiso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

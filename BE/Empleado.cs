@@ -8,9 +8,9 @@ namespace BE
 {
     public class Empleado
     {
-        private String _legajo;
+        private int _legajo;
 
-        public String legajo
+        public int legajo
         {
             get { return _legajo; }
             set { _legajo = value; }
