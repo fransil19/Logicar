@@ -70,5 +70,10 @@ namespace BLL
         {
             _permisosDAL.ListarFamiliaPatentes(f);
         }
+
+        public void EliminarFamilia(BE.Familia familia)
+        {
+            _permisosDAL.EliminarFamilia(familia);
+        }
     }
 }

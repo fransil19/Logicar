@@ -45,5 +45,19 @@ namespace DAL
             con.Desconectar();
             return (int)id;
         }
+
+        public SqlDataReader GetReader(string query)
+        {
+            con.Conectar();
+            SqlCommand comando = new SqlCommand(query, con._con);
+            SqlDataReader lector = comando.ExecuteReader();
+            return lector;
+        }
+
+        public void CloseReader(SqlDataReader lector)
+        {
+            lector.Close();
+            con.Desconectar();
+        }
     }
 }

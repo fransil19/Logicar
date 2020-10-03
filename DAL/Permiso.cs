@@ -95,7 +95,7 @@ namespace DAL
 
                 c.id = int.Parse(row["id"].ToString()); ;
                 c.nombre = row["nombre"].ToString();
-                c.esFamilia = int.Parse(row["es_familia"].ToString());
+                c.esFamilia = bool.Parse(row["es_familia"].ToString()) ? 1 : 0;
                 lista.Add(c);
 
             }
@@ -112,34 +112,26 @@ namespace DAL
                 condicion = familia;
             }
 
-            string sql = string.Format(@"with recursivo as (
-                        select com2.id_familia, com2.id_patente  from compuesto com2
-                        where sp2.id_familia {0} --acá se va variando la familia que busco
-                        UNION ALL 
-                        select com.id_familia, com.id_patente from compuesto com 
-                        inner join recursivo r on r.id_patente = sp.id_familia
-                        )
-                        select r.id_familia,r.id_patente,p.id,p.nombre, p.es_familia
-                        from recursivo r 
-                        inner join patente p on r.id_patente = p.id 
-                        ", condicion);
+            string sql = $@"select com2.id_familia,p.id,p.nombre, p.es_familia  from compuesto com2
+                            inner join patente p on com2.id_patente = p.id
+                            where com2.id_familia {condicion};";
 
-            DataTable tb = _acceso.ExecuteReader(sql);
+            var reader = _acceso.GetReader(sql);
             
             var lista = new List<BE.Permiso>();
 
-            foreach (DataRow row in tb.Rows)
+            while(reader.Read())
             {
                 int id_padre = 0;
-                if (row["id_familia"] != DBNull.Value)
+                if (reader["id_familia"] != DBNull.Value)
                 {
-                    id_padre = int.Parse(row["id_familia"].ToString());
+                    id_padre = int.Parse(reader["id_familia"].ToString());
                 }
 
-                int id = int.Parse(row["id"].ToString());
-                string nombre = row["nombre"].ToString();
+                int id = int.Parse(reader["id"].ToString());
+                string nombre = reader["nombre"].ToString();
 
-                int esFamilia = int.Parse(row["permiso"].ToString());
+                int esFamilia = bool.Parse(reader["es_familia"].ToString()) ? 1 : 0;
 
                 BE.Permiso p;
 
@@ -167,7 +159,7 @@ namespace DAL
                 }
 
             }
-
+            _acceso.CloseReader(reader);
             return lista;
         }
 
@@ -207,7 +199,7 @@ namespace DAL
                 int idpat = int.Parse(row["id"].ToString());
                 string nombrepat = row["nombre"].ToString();
 
-                int esFamiliaPat = int.Parse(row["es_familia"].ToString());
+                int esFamiliaPat = bool.Parse(row["es_familia"].ToString()) ? 1 : 0;
 
                 BE.Permiso permiso;
                 if (esFamiliaPat != 1)
@@ -245,7 +237,22 @@ namespace DAL
             }
         }
 
+        public void EliminarFamilia(BE.Familia familia)
+        {
+            Usuario _usuarioDal = new Usuario();
+            List<BE.Usuario> listaUsuarios = _usuarioDal.GetUsuariosFamilia(familia);
+            if (listaUsuarios.Count > 0)
+            {
+                throw new Exception("La familia tiene usuarios asignados, por favor desasigne la familia del o los usuarios y vuelva a intentar");
+            }
+            if (familia.Hijos.Count > 0)
+            {
+                throw new Exception("La familia tiene patentes asignadas, por favor desasigne las patentes y vuelva a intentar");
+            }
 
+            string sql = $@"DELETE FROM patente where id = {familia.id}";
+            _acceso.ExecuteNonQuery(sql);
+        }
 
     }
 }

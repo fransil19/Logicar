@@ -137,5 +137,32 @@ namespace DAL
             }
         }
 
+        public List<BE.Usuario> GetUsuariosFamilia(BE.Familia familia)
+        {
+            List<BE.Usuario> listaUsuarios = new List<BE.Usuario>();
+
+            string sql = $@"SELECT u.* FROM usuario u 
+                           INNER JOIN patenteusuario pu ON pu.id_usuario=u.id
+                           WHERE id_patente = {familia.id};";
+
+            var reader = _acceso.GetReader(sql);
+
+            while (reader.Read())
+            {
+                BE.Usuario usuario = new BE.Usuario();
+                usuario.id = int.Parse(reader["id"].ToString());
+                usuario.usuario = reader["usuario"].ToString();
+                usuario.contrasena = reader["contrasena"].ToString();
+                usuario.contador = int.Parse(reader["contador"].ToString());
+                usuario.estado = int.Parse(reader["estado"].ToString());
+                usuario.email = reader["email"].ToString();
+                usuario.dvh = long.Parse(reader["dvh"].ToString());
+                listaUsuarios.Add(usuario);
+            }
+            _acceso.CloseReader(reader);
+
+            return listaUsuarios;
+        }
+
     }
 }

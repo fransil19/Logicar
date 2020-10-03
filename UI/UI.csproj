@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -84,11 +84,23 @@
     <Compile Include="ListaEmpleados.Designer.cs">
       <DependentUpon>ListaEmpleados.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListarFamilias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListarFamilias.Designer.cs">
+      <DependentUpon>ListarFamilias.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModificarFamilia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModificarFamilia.Designer.cs">
+      <DependentUpon>ModificarFamilia.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,8 +113,14 @@
     <EmbeddedResource Include="ListaEmpleados.resx">
       <DependentUpon>ListaEmpleados.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ListarFamilias.resx">
+      <DependentUpon>ListarFamilias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModificarFamilia.resx">
+      <DependentUpon>ModificarFamilia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
