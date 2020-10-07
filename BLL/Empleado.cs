@@ -9,28 +9,34 @@ namespace BLL
     public class Empleado
     {
         DAL.Empleado _empleadoDal;
+        DAL.Usuario _usuarioDal;
 
         public Empleado()
         {
             _empleadoDal = new DAL.Empleado();
         }
 
-        public void altaEmpleado(BE.Empleado emp)
+        public void AltaEmpleado(BE.Empleado emp)
         {
-            String query = "SELECT * FROM Empleado WHERE tipo_documento = " + emp.tipoDocumento + " AND nro_documento = " + emp.nroDocumento;
-
-            //llamo a funcion de busqueda de empleado
-            var resultado = true;
-
-            if (resultado)
+            try
             {
-                throw new Exception("El empleado ya se encuentra registrado"); 
+                var empleadoExistente = _empleadoDal.BuscarEmpleado(emp);
+                if (empleadoExistente != null)
+                {
+                    throw new Exception("El empleado indicado ya existe.");
+                }
+            }
+            catch(Exception e)
+            {
+                _empleadoDal.GuardarEmpleado(emp);
+                Usuario _usuarioBLL = new Usuario();
+                emp.usuario = _usuarioBLL.GenerarUsuario(emp);
+                _empleadoDal.ActualizarEmpleado(emp);
+
+                //encripto usuario que realiza el evento,registro en bitacora y "envia" por email.
+
             }
 
-            query = "INSERT INTO Empleado (tipo_documento, nro_documento, nombre, apellido, domicilio)";
-
-
-            return;
         }
 
         public List<BE.Empleado> ListarEmpleados()
@@ -39,6 +45,10 @@ namespace BLL
             return lista;
         }
 
+        public void ActualizarEmpleado(BE.Empleado empleado)
+        {
+            _empleadoDal.ActualizarEmpleado(empleado);
+        }
 
     }
 }

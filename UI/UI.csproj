@@ -72,6 +72,12 @@
     <Compile Include="AltaFamilia.Designer.cs">
       <DependentUpon>AltaFamilia.cs</DependentUpon>
     </Compile>
+    <Compile Include="AsignarPatentes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AsignarPatentes.Designer.cs">
+      <DependentUpon>AsignarPatentes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,12 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModificarEmpleado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModificarEmpleado.Designer.cs">
+      <DependentUpon>ModificarEmpleado.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModificarFamilia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +122,9 @@
     <EmbeddedResource Include="AltaFamilia.resx">
       <DependentUpon>AltaFamilia.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AsignarPatentes.resx">
+      <DependentUpon>AsignarPatentes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListaEmpleados.resx">
       <DependentUpon>ListaEmpleados.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModificarEmpleado.resx">
+      <DependentUpon>ModificarEmpleado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModificarFamilia.resx">
       <DependentUpon>ModificarFamilia.cs</DependentUpon>

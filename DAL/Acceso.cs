@@ -15,7 +15,6 @@ namespace DAL
 
         public Acceso()
         {
-            tabla = new DataTable();
             con = Conexion.GetInstancia();
         }
 
@@ -29,6 +28,7 @@ namespace DAL
 
         public DataTable ExecuteReader(String query)
         {
+            tabla = new DataTable();
             con.Conectar();
             SqlCommand comando = new SqlCommand(query, con._con);
             SqlDataReader lector = comando.ExecuteReader();

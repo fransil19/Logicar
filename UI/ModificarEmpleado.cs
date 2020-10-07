@@ -10,15 +10,20 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class AltaEmpleado : Form
+    public partial class ModificarEmpleado : Form
     {
-        public AltaEmpleado()
+        BE.Empleado _empleado;
+        public ModificarEmpleado(BE.Empleado empleado)
         {
+            _empleado = empleado;
             InitializeComponent();
         }
 
-        private void AltaEmpleado_Load(object sender, EventArgs e)
+        private void lblModificarEmpleado_Load(object sender, EventArgs e)
         {
+            txtLegajo.Text = _empleado.legajo.ToString();
+            txtNombre.Text = _empleado.nombre;
+            txtApellido.Text = _empleado.apellido;
             Dictionary<int, string> comboSource = new Dictionary<int, string>();
             comboSource.Add(1, "DNI");
             comboSource.Add(2, "CUIL");
@@ -28,44 +33,45 @@ namespace UI
             cmbTDoc.DisplayMember = "Value";
             cmbTDoc.ValueMember = "Key";
             cmbTDoc.SelectedIndex = 0;
+            cmbTDoc.SelectedItem = _empleado.tipoDocumento-1;
+            txtNroDoc.Text = _empleado.nroDocumento.ToString();
+            txtDomicilio.Text = _empleado.domicilio;
+            txtEmail.Text = _empleado.email;
+            txtTelefono.Text = _empleado.telefono.ToString();
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            BE.Empleado empleado = new BE.Empleado();
-
-            if(txtNombre.Text == "" || txtNombre.Text == null || txtApellido.Text == "" || txtApellido.Text == null ||
+            if (txtNombre.Text == "" || txtNombre.Text == null || txtApellido.Text == "" || txtApellido.Text == null ||
                txtDomicilio.Text == "" || txtDomicilio.Text == null || txtNroDoc.Text == "" || txtNroDoc.Text == null
                || txtEmail.Text == "" || txtEmail.Text == null)
             {
                 MessageBox.Show("Por favor complete los campos obligatorios");
                 return;
             }
-            
+
             string nombre = txtNombre.Text;
             string apellido = txtApellido.Text;
             string domicilio = txtDomicilio.Text;
-            var tipoDoc = (KeyValuePair<int,string>) cmbTDoc.SelectedItem;
+            var tipoDoc = (KeyValuePair<int, string>)cmbTDoc.SelectedItem;
             long nroDoc = long.Parse(txtNroDoc.Text);
             string email = txtEmail.Text;
             if (!String.IsNullOrEmpty(txtTelefono.Text))
             {
                 long telefono = long.Parse(txtTelefono.Text);
-                empleado.telefono = telefono;
+                _empleado.telefono = telefono;
 
             }
-            
-
-            empleado.nombre = nombre;
-            empleado.apellido = apellido;
-            empleado.domicilio = domicilio;
-            empleado.tipoDocumento = tipoDoc.Key;
-            empleado.nroDocumento = nroDoc;
-            empleado.email = email;
+            _empleado.nombre = nombre;
+            _empleado.apellido = apellido;
+            _empleado.domicilio = domicilio;
+            _empleado.tipoDocumento = tipoDoc.Key;
+            _empleado.nroDocumento = nroDoc;
+            _empleado.email = email;
 
             BLL.Empleado bllEmpleado = new BLL.Empleado();
-            bllEmpleado.AltaEmpleado(empleado);
-            var dialogResult = MessageBox.Show("Se cargo el empleado");
+            bllEmpleado.ActualizarEmpleado(_empleado);
+            var dialogResult = MessageBox.Show("Se actualizo el empleado");
             this.Hide();
             if (dialogResult == DialogResult.Cancel)
             {

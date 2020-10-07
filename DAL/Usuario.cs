@@ -32,9 +32,10 @@ namespace DAL
             string query = string.Format("SELECT * FROM usuario WHERE usuario = {0}",user);
             tb = _acceso.ExecuteReader(query);
 
-            BE.Usuario usuario = new BE.Usuario();
+            
             if(tb != null)
             {
+                BE.Usuario usuario = new BE.Usuario();
                 foreach (DataRow fila in tb.Rows)
                 {
                     usuario.id = int.Parse(fila[0].ToString());
@@ -45,10 +46,13 @@ namespace DAL
                     usuario.email = fila[5].ToString();
                     usuario.dvh = long.Parse(fila[6].ToString());
                 }
+                _permisoDal.LlenarUsuarioPermisos(usuario);
+                return usuario;
             }
-            
-            return usuario;
-
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public BE.Usuario GetUsuarioId(int id)
@@ -70,6 +74,7 @@ namespace DAL
                     usuario.email = fila[5].ToString();
                     usuario.dvh = long.Parse(fila[6].ToString());
                 }
+                _permisoDal.LlenarUsuarioPermisos(usuario);
             }
 
             return usuario;
@@ -97,19 +102,22 @@ namespace DAL
                 usuario.email = fila[5].ToString();
                 usuario.dvh = long.Parse(fila[6].ToString());
 
-                listaUsuarios.Add(usuario);
                 _permisoDal.LlenarUsuarioPermisos(usuario);
+                listaUsuarios.Add(usuario);
             }
 
             return listaUsuarios;
         }
 
-        public void Insertar(BE.Usuario usuario)
+        public BE.Usuario Insertar(BE.Usuario usuario)
         {
             string query = string.Format(@"INSERT INTO usuario (usuario,contrasena,contador,estado,email,dvh) 
-                           output INSERTED.ID VALUES({0},{1},{2},{3},{4},{5})",usuario.usuario,usuario.contrasena,
+                           output INSERTED.ID VALUES('{0}','{1}',{2},{3},'{4}',{5})",usuario.usuario,usuario.contrasena,
                            usuario.contador,usuario.estado,usuario.email,usuario.dvh);
-            _acceso.ExecuteReader(query);
+            int id = _acceso.ExecuteScalar(query);
+            usuario.id = id;
+
+            return usuario;
 
         }
 
@@ -119,12 +127,12 @@ namespace DAL
             try
             {
               
-                string query = $@"delete from usuarios_permisos where id_usuario={u.id};";
+                string query = $@"delete from patenteUsuario where id_usuario={u.id};";
                 _acceso.ExecuteNonQuery(query);
 
-                foreach (var item in u.Permisos)
+                foreach (var perm in u.Permisos)
                 {
-                    query = $@"insert into usuarios_permisos (id_usuario,id_permiso) values ({u.id},{item.id}) "; ;
+                    query = $@"insert into patenteUsuario (id_usuario,id_patente) values ({u.id},{perm.id}) "; ;
 
                     _acceso.ExecuteNonQuery(query);
                 }

@@ -64,9 +64,9 @@ namespace BE
             set { _email = value; }
         }
 
-        private int _telefono;
+        private long _telefono;
 
-        public int telefono
+        public long telefono
         {
             get { return _telefono; }
             set { _telefono = value; }

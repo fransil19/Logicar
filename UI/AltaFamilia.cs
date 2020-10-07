@@ -77,7 +77,11 @@ namespace UI
             familia.esFamilia = 1;
             _permisoBll.GuardarPermiso(familia);
             _permisoBll.GuardarFamilia(familia);
-            MessageBox.Show("Familia creada con exito");
+            var opcion = MessageBox.Show("Familia creada con exito");
+            if (opcion == DialogResult.OK)
+            {
+                CerrarVentana();
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -85,8 +89,13 @@ namespace UI
             var opcion = MessageBox.Show("Seguro desea cancelar la operación?","Cancelar operacion",MessageBoxButtons.OKCancel,MessageBoxIcon.Exclamation);
             if(opcion == DialogResult.OK)
             {
-                this.Close();
+                CerrarVentana();
             }
+        }
+
+        private void CerrarVentana()
+        {
+            this.Close();
         }
     }
 }

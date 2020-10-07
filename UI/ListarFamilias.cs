@@ -21,6 +21,12 @@ namespace UI
 
         private void ListarFamilias_Load(object sender, EventArgs e)
         {
+            CargarFamilias();
+        }
+
+        private void CargarFamilias()
+        {
+            grillaFamilias.DataSource = null;
             var listaFamilias = _permisoBLL.GetAllFamilias();
             grillaFamilias.DataSource = listaFamilias.Select(r => new
             {
@@ -38,7 +44,14 @@ namespace UI
         private void btnAgregarFamilia_Click(object sender, EventArgs e)
         {
             AltaFamilia formAFamilia = new AltaFamilia();
-            formAFamilia.Show();
+            var dialogResult = formAFamilia.ShowDialog();
+            this.Hide();
+            if (dialogResult == DialogResult.Cancel)
+            {
+                this.Show();
+                CargarFamilias();
+            }
+            //CerrarVentana();
         }
 
         private void btnModificarFamilia_Click(object sender, EventArgs e)
@@ -48,7 +61,14 @@ namespace UI
             var familia = listaFamilias.Where(i => i.id == indice).FirstOrDefault();
             _permisoBLL.FillFamilyComponents(familia);
             ModificarFamilia formMFamilia = new ModificarFamilia(familia);
-            formMFamilia.Show();
+            var dialogResult = formMFamilia.ShowDialog();
+            this.Hide();
+            if (dialogResult == DialogResult.Cancel)
+            {
+                this.Show();
+                CargarFamilias();
+            }
+            //CerrarVentana();
         }
 
         private void btnEliminarFamilia_Click(object sender, EventArgs e)
@@ -66,7 +86,28 @@ namespace UI
             {
                 MessageBox.Show(exp.Message);
             }
+
+            CargarFamilias();
             
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            CerrarVentana();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            var opcion = MessageBox.Show("Seguro desea cancelar la operación?", "Cancelar operacion", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+            if (opcion == DialogResult.OK)
+            {
+                CerrarVentana();
+            }
+        }
+
+        private void CerrarVentana()
+        {
+            this.Close();
         }
     }
 }

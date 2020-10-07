@@ -43,6 +43,7 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Conexion.cs" />
+    <Compile Include="DigitoVerificador.cs" />
     <Compile Include="Empleado.cs" />
     <Compile Include="Permiso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
