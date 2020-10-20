@@ -62,6 +62,7 @@ namespace UI
             empleado.tipoDocumento = tipoDoc.Key;
             empleado.nroDocumento = nroDoc;
             empleado.email = email;
+            empleado.estado = 1;
 
             BLL.Empleado bllEmpleado = new BLL.Empleado();
             bllEmpleado.AltaEmpleado(empleado);

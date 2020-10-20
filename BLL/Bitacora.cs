@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public static class Bitacora
+    public class Bitacora
     {
-
-        public static void RegistrarBitacora(BE.Usuario usuario, string descripcion, int criticidad)
+        DAL.Bitacora _bitacoraDal;
+        public Bitacora()
         {
-            DAL.Acceso acceso = new DAL.Acceso();
+            _bitacoraDal = new DAL.Bitacora();
+        }
+
+        public void RegistrarBitacora(BE.Usuario usuario, string descripcion, int criticidad)
+        {
             BE.Bitacora bitacora = new BE.Bitacora();
             descripcion = Cifrado.Encriptar(descripcion,false);
 
-            DateTime fecha = new DateTime().Date;
+            DateTime fecha = DateTime.Now;
 
             bitacora.usuario = usuario;
             bitacora.descripcion = descripcion;
@@ -26,10 +30,12 @@ namespace BLL
             long dvh = DigitoVerificador.CalcularDV(bitacora,"bitacora");
             bitacora.dvh = dvh;
 
-            string query = string.Format("INSERT INTO bitacora (id_usuario,descripcion,criticidad,fecha) VALUES ({0},{1},{2},{3})", 
-                bitacora.usuario.id, bitacora.descripcion, bitacora.criticidad, bitacora.fecha);
+            _bitacoraDal.RegistrarBitacora(bitacora);
+        }
 
-
+        public List<BE.Bitacora> ListarBitacora()
+        {
+            return _bitacoraDal.ListarBitacora();
         }
     }
 }

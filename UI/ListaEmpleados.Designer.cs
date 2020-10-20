@@ -75,6 +75,7 @@
             this.btnAdminFam.TabIndex = 91;
             this.btnAdminFam.Text = "Administrar Familias";
             this.btnAdminFam.UseVisualStyleBackColor = true;
+            this.btnAdminFam.Click += new System.EventHandler(this.btnAdminFam_Click);
             // 
             // btnAdminPat
             // 
@@ -181,6 +182,7 @@
             this.btnEliminar.TabIndex = 93;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnDesbloquear
             // 

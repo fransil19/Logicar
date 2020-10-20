@@ -53,12 +53,17 @@ namespace UI
         {
             this.Hide();
             AltaEmpleado formAEmpleado = new AltaEmpleado();
-            var dialogResult = formAEmpleado.ShowDialog();
-            if (dialogResult == DialogResult.Cancel)
-            {
-                this.Show();
-                ActualizarGrilla();
-            }
+            formAEmpleado.MdiParent = this.ParentForm;
+            formAEmpleado.Show();
+            formAEmpleado.FormClosed += new FormClosedEventHandler(Form_Closed);
+
+           
+        }
+
+        private void Form_Closed(object sender, FormClosedEventArgs e)
+        {
+            this.Show();
+            ActualizarGrilla();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -68,12 +73,9 @@ namespace UI
             var empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
             this.Hide();
             ModificarEmpleado formMEmpleado = new ModificarEmpleado(empleado);
-            var dialogResult = formMEmpleado.ShowDialog();
-            if (dialogResult == DialogResult.Cancel)
-            {
-                this.Show();
-                ActualizarGrilla();
-            }
+            formMEmpleado.MdiParent = this.ParentForm;
+            formMEmpleado.Show();
+            formMEmpleado.FormClosed += new FormClosedEventHandler(Form_Closed);
         }
 
         private void btnAsignarPat_Click(object sender, EventArgs e)
@@ -83,12 +85,39 @@ namespace UI
             var empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
             this.Hide();
             AsignarPatentes formAsigPatentes = new AsignarPatentes(empleado);
-            var dialogResult = formAsigPatentes.ShowDialog();
-            if (dialogResult == DialogResult.Cancel)
+            formAsigPatentes.MdiParent = this.ParentForm;
+            formAsigPatentes.Show();
+            formAsigPatentes.FormClosed += new FormClosedEventHandler(Form_Closed);
+        }
+
+        private void btnAdminFam_Click(object sender, EventArgs e)
+        {
+            int indice = (int)grillaEmpleado.CurrentRow.Cells[0].Value;
+            var listaEmpleados = _empleadoBLL.ListarEmpleados();
+            var empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
+            this.Hide();
+            AsignarFamilias formAsigFamilias = new AsignarFamilias(empleado);
+            formAsigFamilias.MdiParent = this.ParentForm;
+            formAsigFamilias.Show();
+            formAsigFamilias.FormClosed += new FormClosedEventHandler(Form_Closed);
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            int indice = (int)grillaEmpleado.CurrentRow.Cells[0].Value;
+            var listaEmpleados = _empleadoBLL.ListarEmpleados();
+            BE.Empleado empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
+            try
             {
-                this.Show();
-                ActualizarGrilla();
+                _empleadoBLL.EliminarEmpleado(empleado);
+                MessageBox.Show("Empleado y usuario eliminado ");
             }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+
+            ActualizarGrilla();
         }
     }
 }

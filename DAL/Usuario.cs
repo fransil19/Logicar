@@ -21,15 +21,15 @@ namespace DAL
         public void Actualizar(BE.Usuario usuario)
         {
             string query = string.Format(@"UPDATE usuario set usuario='{0}',contrasena='{1}',contador={2},estado={3},
-                            email='{4}',dvh={5}", usuario.usuario, usuario.contrasena,
-                          usuario.contador, usuario.estado, usuario.email, usuario.dvh);
+                            email='{4}',dvh={5} where id = {6}", usuario.usuario, usuario.contrasena,
+                          usuario.contador, usuario.estado, usuario.email, usuario.dvh,usuario.id);
             _acceso.ExecuteReader(query);
         }
 
         public BE.Usuario GetUsuarioUser(string user)
         {
             DataTable tb;
-            string query = string.Format("SELECT * FROM usuario WHERE usuario = {0}",user);
+            string query = string.Format("SELECT * FROM usuario WHERE usuario = '{0}'",user);
             tb = _acceso.ExecuteReader(query);
 
             

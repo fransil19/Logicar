@@ -15,7 +15,7 @@ namespace BLL
             DAL.Acceso acceso = new DAL.Acceso();
             string nombre_usuario = Cifrado.Encriptar("SYSTEM", true);
             DAL.Usuario _usuarioDal = new DAL.Usuario();
-
+            Bitacora _bitacoraBll = new Bitacora();
             try
             {
                 BE.Usuario usr = _usuarioDal.GetUsuarioUser(nombre_usuario);
@@ -43,8 +43,8 @@ namespace BLL
                         // registro en bitacora
                         string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Vertical de la tabla {0} 
                                                                 no coincide. Calculado = {1} , Almacenado = {2}", row["nombreTabla"].ToString(), resultado, row["dvv"].ToString());
-
-                        Bitacora.RegistrarBitacora(usr, descripcion_bitacora, 1);
+                      
+                        _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1);
                         error = 1;
                     }
                     /* CALCULO Y COMPARO DVH DE CADA REGISTRO DE LA TABLA VERIFICADA */
@@ -73,7 +73,7 @@ namespace BLL
                             string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Horizontal de la tabla {0} 
                                                                 no coincide. Calculado = {1} , Almacenado = {2}", row["nombreTabla"].ToString(), dvh, fila["dvh"].ToString());
 
-                            Bitacora.RegistrarBitacora(usr, descripcion_bitacora, 1);
+                            _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1);
                             error = 1;
                         }
                     }

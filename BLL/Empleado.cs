@@ -10,10 +10,12 @@ namespace BLL
     {
         DAL.Empleado _empleadoDal;
         DAL.Usuario _usuarioDal;
+        Usuario _usuarioBLL;
 
         public Empleado()
         {
             _empleadoDal = new DAL.Empleado();
+            _usuarioBLL = new Usuario();
         }
 
         public void AltaEmpleado(BE.Empleado emp)
@@ -29,7 +31,6 @@ namespace BLL
             catch(Exception e)
             {
                 _empleadoDal.GuardarEmpleado(emp);
-                Usuario _usuarioBLL = new Usuario();
                 emp.usuario = _usuarioBLL.GenerarUsuario(emp);
                 _empleadoDal.ActualizarEmpleado(emp);
 
@@ -48,6 +49,14 @@ namespace BLL
         public void ActualizarEmpleado(BE.Empleado empleado)
         {
             _empleadoDal.ActualizarEmpleado(empleado);
+        }
+
+        public BE.Empleado EliminarEmpleado(BE.Empleado empleado)
+        {
+            empleado.estado = 0;
+            _usuarioBLL.EliminarUsuario(empleado.usuario);
+            ActualizarEmpleado(empleado);
+            return empleado;
         }
 
     }

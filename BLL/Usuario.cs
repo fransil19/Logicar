@@ -10,38 +10,30 @@ namespace BLL
     public class Usuario
     {
         DAL.Usuario _usuarioDal;
+        Permiso _permisoBll;
+        Bitacora _bitacoraBLL;
 
         public Usuario()
         {
             _usuarioDal = new DAL.Usuario();
+            _permisoBll = new Permiso();
+            _bitacoraBLL = new Bitacora();
         }
 
-        public string Login(string usuario, string password)
+        public BE.Usuario Login(string usuario)
         {
-
-            //Verifico integridad de la base
-            int error_verificado = DigitoVerificador.VerificarDV();
-
             /* CIFRO EL USUARIO Y CONTRASEÑA */
-            string usuarioCifrado = Cifrado.Encriptar(usuario, true);
-            string passCifrado = Cifrado.Encriptar(password, false);
+            
 
-            BE.Usuario user = _usuarioDal.GetUsuarioUser(usuarioCifrado);
+            BE.Usuario user = _usuarioDal.GetUsuarioUser(usuario);
 
             if(user.usuario == null)
             {
-                throw new Exception("Usuario o Contraseña incorrectos");
-            }
-            else if(user.contrasena != passCifrado)
-            {
-
-            }
-            else if(user.contador == 3)
-            {
-
+                //Usuario o Contraseña incorrectos
+                throw new Exception("Usuario o contraseña incorrectos");
             }
 
-            return "hola";//mensaje;
+            return user;
         }
 
         public List<BE.Usuario> GetAll()
@@ -95,6 +87,115 @@ namespace BLL
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, longitud)
               .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public BE.Usuario EliminarUsuario(BE.Usuario usuario)
+        {
+            usuario.estado = 0;
+            _usuarioDal.Actualizar(usuario);
+            return usuario;
+        }
+
+        public int BloquearUsuario(BE.Usuario usuario)
+        {
+            if(usuario.contador >= 3)
+            {
+                _permisoBll.FillUserComponents(usuario);
+                var esAdmin = VerificarPermisos(usuario);
+
+                if (esAdmin)
+                {
+                    //retorno que es admin
+                    return 0;
+                }
+                else
+                {
+                    //no es admin
+                    return 1;
+                }
+            }
+            else
+            {
+                usuario.contador += 1;
+                if (usuario.contador >= 3)
+                {
+                    _permisoBll.FillUserComponents(usuario);
+                    var esAdmin = VerificarPermisos(usuario);
+
+                    if (esAdmin)
+                    {
+                        //retorno que es admin
+                        return 0;
+                    }
+                    else
+                    {
+                        usuario.dvh = DigitoVerificador.CalcularDV(usuario,"usuario");
+                        _bitacoraBLL.RegistrarBitacora(usuario, "Contraseña Incorrecta, se bloqueo el usuario", 1);
+                        _usuarioDal.Actualizar(usuario);
+                        return 1;
+                    }
+                }
+
+                usuario.dvh = DigitoVerificador.CalcularDV(usuario, "usuario");
+                
+                _bitacoraBLL.RegistrarBitacora(usuario, $@"Contraseña Incorrecta, se incrementa contador = {usuario.contador}", 1);
+                _usuarioDal.Actualizar(usuario);
+                return 2;
+
+            }
+        }
+
+        public bool VerificarPermisos(BE.Usuario usuario)
+        {
+            IList<BE.Patente> listaPatentes = _permisoBll.GetAllPatentes();
+            var listaModificada = new List<BE.Patente>();
+            foreach (var permiso in usuario.Permisos)
+            {
+                foreach(var item in listaPatentes)
+                {
+                    if (permiso.Hijos.Count <= 0)
+                    {
+                        if (item.id == permiso.id)
+                        {
+                            if (listaModificada.Find(r => r.id == item.id) == null)
+                            {
+                                listaModificada.Add(item);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach(var pat in permiso.Hijos)
+                        {
+                            if (item.id == permiso.id)
+                            {
+                                if (listaModificada.Find(r => r.id == item.id) == null)
+                                {
+                                    listaModificada.Add(item);
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
+            if (listaPatentes.Count() == listaModificada.Count())
+            {
+                // Es administrador
+                return true;
+            }
+            else
+            {
+                // No es admin
+                return false;
+            }
+        }
+
+        public void DesbloquearUsuarioAdmin(BE.Usuario usuario)
+        {
+            usuario.contador = 0;
+            _usuarioDal.Actualizar(usuario);
         }
     }
 }

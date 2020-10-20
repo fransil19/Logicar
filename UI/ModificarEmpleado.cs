@@ -21,7 +21,7 @@ namespace UI
 
         private void lblModificarEmpleado_Load(object sender, EventArgs e)
         {
-            txtLegajo.Text = _empleado.legajo.ToString();
+            txtLegajo.Text = _empleado.legajo.ToString().PadLeft(6, '0');
             txtNombre.Text = _empleado.nombre;
             txtApellido.Text = _empleado.apellido;
             Dictionary<int, string> comboSource = new Dictionary<int, string>();

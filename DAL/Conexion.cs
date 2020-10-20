@@ -14,7 +14,7 @@ namespace DAL
 
         private Conexion()
         {
-            _con = new SqlConnection("Data Source=DESKTOP-3LN0IH6;Initial Catalog=Diploma;Integrated Security=True");
+            _con = new SqlConnection("Data Source=DESKTOP-HPTT8TA;Initial Catalog=Diploma;Integrated Security=True");
         }
 
         public static Conexion GetInstancia()

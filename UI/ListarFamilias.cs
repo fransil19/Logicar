@@ -43,15 +43,11 @@ namespace UI
 
         private void btnAgregarFamilia_Click(object sender, EventArgs e)
         {
-            AltaFamilia formAFamilia = new AltaFamilia();
-            var dialogResult = formAFamilia.ShowDialog();
             this.Hide();
-            if (dialogResult == DialogResult.Cancel)
-            {
-                this.Show();
-                CargarFamilias();
-            }
-            //CerrarVentana();
+            AltaFamilia formAFamilia = new AltaFamilia();
+            formAFamilia.MdiParent = this.ParentForm;
+            formAFamilia.Show();
+            formAFamilia.FormClosed += new FormClosedEventHandler(Form_Closed);
         }
 
         private void btnModificarFamilia_Click(object sender, EventArgs e)
@@ -60,15 +56,11 @@ namespace UI
             var listaFamilias = _permisoBLL.GetAllFamilias();
             var familia = listaFamilias.Where(i => i.id == indice).FirstOrDefault();
             _permisoBLL.FillFamilyComponents(familia);
-            ModificarFamilia formMFamilia = new ModificarFamilia(familia);
-            var dialogResult = formMFamilia.ShowDialog();
             this.Hide();
-            if (dialogResult == DialogResult.Cancel)
-            {
-                this.Show();
-                CargarFamilias();
-            }
-            //CerrarVentana();
+            ModificarFamilia formMFamilia = new ModificarFamilia(familia);
+            formMFamilia.MdiParent = this.ParentForm;
+            formMFamilia.Show();
+            formMFamilia.FormClosed += new FormClosedEventHandler(Form_Closed);
         }
 
         private void btnEliminarFamilia_Click(object sender, EventArgs e)
@@ -108,6 +100,12 @@ namespace UI
         private void CerrarVentana()
         {
             this.Close();
+        }
+
+        private void Form_Closed(object sender, FormClosedEventArgs e)
+        {
+            this.Show();
+            CargarFamilias();
         }
     }
 }
