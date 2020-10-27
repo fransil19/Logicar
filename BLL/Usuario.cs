@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace BLL
 {
@@ -49,9 +50,9 @@ namespace BLL
         public BE.Usuario GenerarUsuario(BE.Empleado emp)
         {
             BE.Usuario usuario = new BE.Usuario();
-            usuario.usuario = Cifrado.Encriptar("u"+emp.legajo.ToString().PadLeft(6, '0'), true);
-            string pass = GenerarPassword(8);
-            usuario.contrasena = Cifrado.Encriptar(pass, false);
+            usuario.usuario = Cifrado.Encriptar(("u"+emp.legajo.ToString().PadLeft(6, '0')).ToUpper(), true);
+            string pass = GenerarPassword();
+            usuario.contrasena = Cifrado.Encriptar(pass.ToUpper(), false);
             string[] nombres = emp.nombre.Split(' ');
             string email = "";
             foreach (string n in nombres)
@@ -77,12 +78,13 @@ namespace BLL
             usuario.dvh = DigitoVerificador.CalcularDV(usuario, "usuario");
             _usuarioDal = new DAL.Usuario();
             _usuarioDal.Insertar(usuario);
-
+            EnviarPassword(Cifrado.Desencriptar(usuario.usuario), pass);
             return usuario;
         }
 
-        public static string GenerarPassword(int longitud)
+        public static string GenerarPassword()
         {
+            int longitud = 8;
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, longitud)
@@ -167,7 +169,7 @@ namespace BLL
                     {
                         foreach(var pat in permiso.Hijos)
                         {
-                            if (item.id == permiso.id)
+                            if (item.id == pat.id)
                             {
                                 if (listaModificada.Find(r => r.id == item.id) == null)
                                 {
@@ -196,6 +198,50 @@ namespace BLL
         {
             usuario.contador = 0;
             _usuarioDal.Actualizar(usuario);
+        }
+
+        public void DesbloquearUsuario(BE.Usuario usuario)
+        {
+            usuario.contador = 0;
+            _usuarioDal.Actualizar(usuario);
+        }
+
+        private void EnviarPassword(string usuario, string pass)
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fileName = $@"{desktopPath}\{usuario}_password.txt";
+            string usr_pass = $@"Usuario: {usuario}{Environment.NewLine}Password: {pass}";
+   
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            using (FileStream fs = File.Create(fileName))
+            {
+                Byte[] cadena = new UTF8Encoding(true).GetBytes(usr_pass);
+                fs.Write(cadena, 0, cadena.Length);
+            }
+        }
+
+        public void CambiarContrasena(string user)
+        {
+            var usuario = _usuarioDal.GetUsuarioUser(Cifrado.Encriptar(user.ToUpper(), true));
+
+            string pass = GenerarPassword();
+            usuario.contrasena = Cifrado.Encriptar(pass.ToUpper(), false);
+            usuario.dvh = DigitoVerificador.CalcularDV(usuario, "usuario");
+            _usuarioDal.Actualizar(usuario);
+            EnviarPassword(Cifrado.Desencriptar(usuario.usuario), pass);
+        }
+
+        public void CambiarContrasena(BE.Usuario user)
+        {
+            string pass = GenerarPassword();
+            user.contrasena = Cifrado.Encriptar(pass.ToUpper(), false);
+            user.dvh = DigitoVerificador.CalcularDV(user, "usuario");
+            _usuarioDal.Actualizar(user);
+            EnviarPassword(Cifrado.Desencriptar(user.usuario), pass);
         }
     }
 }

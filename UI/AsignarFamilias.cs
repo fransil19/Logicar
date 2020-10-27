@@ -72,7 +72,7 @@ namespace UI
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            _empleado.usuario.Permisos.FindAll(r => r.esFamilia == 1).Clear();
+            _empleado.usuario.Permisos.RemoveAll(r => r.esFamilia == 1);
             foreach (BE.Familia fam in _listaAsignados)
             {
                 _empleado.usuario.Permisos.Add(fam);

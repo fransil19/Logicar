@@ -96,6 +96,7 @@ namespace DAL
                 c.id = int.Parse(row["id"].ToString()); ;
                 c.nombre = row["nombre"].ToString();
                 c.esFamilia = bool.Parse(row["es_familia"].ToString()) ? 1 : 0;
+                c.dvh = long.Parse(row["dvh"].ToString());
                 lista.Add(c);
 
             }

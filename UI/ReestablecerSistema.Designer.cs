@@ -59,7 +59,7 @@
             this.grpBitacora.Controls.Add(this.lblCriticidad);
             this.grpBitacora.Controls.Add(this.lblUsuario);
             this.grpBitacora.Controls.Add(this.grillaBitacora);
-            this.grpBitacora.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic);
+            this.grpBitacora.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBitacora.Location = new System.Drawing.Point(39, 99);
             this.grpBitacora.Name = "grpBitacora";
             this.grpBitacora.Size = new System.Drawing.Size(694, 276);
@@ -69,13 +69,14 @@
             // 
             // btnRefrescar
             // 
-            this.btnRefrescar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefrescar.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefrescar.Location = new System.Drawing.Point(593, 21);
             this.btnRefrescar.Name = "btnRefrescar";
             this.btnRefrescar.Size = new System.Drawing.Size(95, 64);
             this.btnRefrescar.TabIndex = 106;
             this.btnRefrescar.Text = "Refrescar";
             this.btnRefrescar.UseVisualStyleBackColor = true;
+            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click);
             // 
             // dtFechaHasta
             // 
@@ -89,10 +90,10 @@
             // lblFechaHasta
             // 
             this.lblFechaHasta.AutoSize = true;
-            this.lblFechaHasta.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaHasta.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaHasta.Location = new System.Drawing.Point(310, 63);
             this.lblFechaHasta.Name = "lblFechaHasta";
-            this.lblFechaHasta.Size = new System.Drawing.Size(92, 18);
+            this.lblFechaHasta.Size = new System.Drawing.Size(76, 17);
             this.lblFechaHasta.TabIndex = 111;
             this.lblFechaHasta.Text = "Fecha Hasta";
             // 
@@ -108,10 +109,10 @@
             // lblFechaDesde
             // 
             this.lblFechaDesde.AutoSize = true;
-            this.lblFechaDesde.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaDesde.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaDesde.Location = new System.Drawing.Point(6, 63);
             this.lblFechaDesde.Name = "lblFechaDesde";
-            this.lblFechaDesde.Size = new System.Drawing.Size(96, 18);
+            this.lblFechaDesde.Size = new System.Drawing.Size(79, 17);
             this.lblFechaDesde.TabIndex = 109;
             this.lblFechaDesde.Text = "Fecha Desde";
             // 
@@ -136,20 +137,20 @@
             // lblCriticidad
             // 
             this.lblCriticidad.AutoSize = true;
-            this.lblCriticidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCriticidad.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCriticidad.Location = new System.Drawing.Point(310, 25);
             this.lblCriticidad.Name = "lblCriticidad";
-            this.lblCriticidad.Size = new System.Drawing.Size(69, 18);
+            this.lblCriticidad.Size = new System.Drawing.Size(63, 17);
             this.lblCriticidad.TabIndex = 105;
             this.lblCriticidad.Text = "Criticidad";
             // 
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsuario.Location = new System.Drawing.Point(6, 25);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(60, 18);
+            this.lblUsuario.Size = new System.Drawing.Size(52, 17);
             this.lblUsuario.TabIndex = 103;
             this.lblUsuario.Text = "Usuario";
             // 
@@ -164,7 +165,7 @@
             // 
             // label7
             // 
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Mistral", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.LightCoral;
             this.label7.Location = new System.Drawing.Point(548, 23);
             this.label7.Name = "label7";
@@ -176,16 +177,16 @@
             // lblReestablecerSistema
             // 
             this.lblReestablecerSistema.AutoSize = true;
-            this.lblReestablecerSistema.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReestablecerSistema.Font = new System.Drawing.Font("Monotype Corsiva", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblReestablecerSistema.Location = new System.Drawing.Point(31, 37);
             this.lblReestablecerSistema.Name = "lblReestablecerSistema";
-            this.lblReestablecerSistema.Size = new System.Drawing.Size(383, 42);
+            this.lblReestablecerSistema.Size = new System.Drawing.Size(293, 45);
             this.lblReestablecerSistema.TabIndex = 106;
             this.lblReestablecerSistema.Text = "Reestablecer Sistema";
             // 
             // btnReestablecerDigitos
             // 
-            this.btnReestablecerDigitos.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReestablecerDigitos.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReestablecerDigitos.Location = new System.Drawing.Point(377, 390);
             this.btnReestablecerDigitos.Name = "btnReestablecerDigitos";
             this.btnReestablecerDigitos.Size = new System.Drawing.Size(356, 37);
@@ -196,7 +197,7 @@
             // 
             // btnRestaurarBase
             // 
-            this.btnRestaurarBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestaurarBase.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRestaurarBase.Location = new System.Drawing.Point(39, 390);
             this.btnRestaurarBase.Name = "btnRestaurarBase";
             this.btnRestaurarBase.Size = new System.Drawing.Size(332, 37);

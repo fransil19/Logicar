@@ -56,8 +56,8 @@ namespace UI
             }
             
 
-            empleado.nombre = nombre;
-            empleado.apellido = apellido;
+            empleado.nombre = nombre.ToUpper();
+            empleado.apellido = apellido.ToUpper();
             empleado.domicilio = domicilio;
             empleado.tipoDocumento = tipoDoc.Key;
             empleado.nroDocumento = nroDoc;
@@ -82,6 +82,11 @@ namespace UI
             {
                 this.Close();
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

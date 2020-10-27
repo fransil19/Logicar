@@ -33,6 +33,11 @@ namespace BE
             set { _default = value; }
         }
 
+        override
+        public string ToString()
+        {
+            return Nombre;
+        }
 
 
     }

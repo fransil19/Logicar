@@ -12,7 +12,6 @@ namespace BLL
     {
         public static int VerificarDV()
         {
-            DAL.Acceso acceso = new DAL.Acceso();
             string nombre_usuario = Cifrado.Encriptar("SYSTEM", true);
             DAL.Usuario _usuarioDal = new DAL.Usuario();
             Bitacora _bitacoraBll = new Bitacora();
@@ -23,57 +22,73 @@ namespace BLL
 
                 DAL.DigitoVerificador _DVDAL = new DAL.DigitoVerificador();
 
-                DataTable dt = _DVDAL.TraerTabla("DigitoVerificador");
+                List<BE.DigitoVerificador> listaDvv = _DVDAL.TraerDVV();
 
-                foreach (DataRow row in dt.Rows)
+                foreach (BE.DigitoVerificador digito in listaDvv)
                 {
-                    DataTable tabla = _DVDAL.TraerTabla(row["nombreTabla"].ToString());
+                    DataTable tabla = _DVDAL.TraerTabla(digito.nombreTabla);
 
                     /* CALCULO Y COMPARO DVV LA TABLA VERIFICADA CON EL ALMACENADO*/
-
-                    long resultado = 0;
-
-                    foreach (DataRow r in tabla.Rows)
+                    if (tabla.Rows.Count != 0)
                     {
-                        resultado += long.Parse(r["dvh"].ToString());
-                    }
+                        long resultado = 0;
 
-                    if (resultado != long.Parse(row["dvv"].ToString()))
-                    {
-                        // registro en bitacora
-                        string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Vertical de la tabla {0} 
-                                                                no coincide. Calculado = {1} , Almacenado = {2}", row["nombreTabla"].ToString(), resultado, row["dvv"].ToString());
-                      
-                        _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1);
-                        error = 1;
-                    }
-                    /* CALCULO Y COMPARO DVH DE CADA REGISTRO DE LA TABLA VERIFICADA */
-                    foreach (DataRow fila in tabla.Rows)
-                    {
-                        long dvh = 0;
-
-                        foreach (DataColumn col in tabla.Columns)
+                        foreach (DataRow r in tabla.Rows)
                         {
-                            long sumador = 0;
-                            if (col.ColumnName != "id" || col.ColumnName != "legajo")
-                            {
-                                var cadena_ascii = ASCIIEncoding.ASCII.GetBytes(fila[col].ToString());
-                                for (int i = 0; i < cadena_ascii.Length; i++)
-                                {
-                                    sumador += long.Parse(cadena_ascii[i].ToString()) * (i + 1);
-                                }
-                                dvh += sumador;
-                            }
-
+                            resultado += long.Parse(r["dvh"].ToString());
                         }
 
-                        if (dvh != long.Parse(fila["dvh"].ToString()))
+                        if (resultado != digito.valorDvv)
                         {
                             // registro en bitacora
-                            string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Horizontal de la tabla {0} 
-                                                                no coincide. Calculado = {1} , Almacenado = {2}", row["nombreTabla"].ToString(), dvh, fila["dvh"].ToString());
+                            string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Vertical de la tabla {0} 
+                                                                no coincide. Calculado = {1} , Almacenado = {2}", digito.nombreTabla, resultado, digito.valorDvv);
 
-                            _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1);
+                            _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1, 0);
+                            error = 1;
+                        }
+                        /* CALCULO Y COMPARO DVH DE CADA REGISTRO DE LA TABLA VERIFICADA */
+                        foreach (DataRow fila in tabla.Rows)
+                        {
+                            long dvh = 0;
+
+                            foreach (DataColumn col in tabla.Columns)
+                            {
+                                long sumador = 0;
+                                if (col.ColumnName != "id" && col.ColumnName != "legajo" && col.ColumnName != "dvh")
+                                {
+                                    var cadena_ascii = ASCIIEncoding.ASCII.GetBytes(fila[col].ToString());
+                                    for (int i = 0; i < cadena_ascii.Length; i++)
+                                    {
+                                        sumador += long.Parse(cadena_ascii[i].ToString()) * (i + 1);
+                                    }
+                                    dvh += sumador;
+                                }
+
+                            }
+
+                            if (dvh != long.Parse(fila["dvh"].ToString()))
+                            {
+                                // registro en bitacora
+                                string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Horizontal de la tabla {0} 
+                                                                no coincide. Calculado = {1} , Almacenado = {2}", digito.nombreTabla, dvh, fila["dvh"].ToString());
+
+                                _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1, 0);
+                                error = 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        long resultado = 0;
+
+                        if (resultado != digito.valorDvv)
+                        {
+                            // registro en bitacora
+                            string descripcion_bitacora = string.Format(@"Error de integridad: Digito Verificador Vertical de la tabla {0} 
+                                                                no coincide. Calculado = {1} , Almacenado = {2}", digito.nombreTabla, resultado, digito.valorDvv);
+
+                            _bitacoraBll.RegistrarBitacora(usr, descripcion_bitacora, 1, 0);
                             error = 1;
                         }
                     }
@@ -81,9 +96,9 @@ namespace BLL
 
                 return error;
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("No existe el usuario de Sistema");
+                throw new Exception(e.Message);
             }
         }
 
@@ -91,7 +106,6 @@ namespace BLL
         /*Para calcular el DV*/
         public static long CalcularDV(Object obj,string nTabla)
         {
-            DAL.Acceso acceso = new DAL.Acceso();
             Type t = obj.GetType();
             PropertyInfo[] propiedades = t.GetProperties();
 
@@ -109,18 +123,23 @@ namespace BLL
                     {
                         if (prop.PropertyType.Assembly.FullName == t.Assembly.FullName)
                         {
-                            if (prop.Name == "id" || prop.Name == "legajo")
+                            var subProp1 = prop.GetValue(obj);
+                            PropertyInfo[] subpropiedades = subProp1.GetType().GetProperties();
+                            foreach(var p in subpropiedades)
                             {
-                                if (prop.GetValue(obj) != null) {
-                                    string cadena = prop.GetValue(obj).ToString();
-                                    var cadena_ascii = ASCIIEncoding.ASCII.GetBytes(cadena);
-                                    long sumador = 0;
+                                if (p.Name == "id" || p.Name == "legajo")
+                                {
+                                    if (p.GetValue(subProp1) != null) {
+                                        string cadena = p.GetValue(subProp1).ToString();
+                                        var cadena_ascii = ASCIIEncoding.ASCII.GetBytes(cadena);
+                                        long sumador = 0;
 
-                                    for (int i = 0; i < cadena_ascii.Length; i++)
-                                    {
-                                        sumador += long.Parse(cadena_ascii[i].ToString()) * (i + 1);
+                                        for (int i = 0; i < cadena_ascii.Length; i++)
+                                        {
+                                            sumador += long.Parse(cadena_ascii[i].ToString()) * (i + 1);
+                                        }
+                                        dvh += sumador;
                                     }
-                                    dvh += sumador;
                                 }
                             }
                         }
@@ -156,17 +175,70 @@ namespace BLL
 
             foreach (DataRow row in tabla.Rows)
             {
-                if (propiedades[posProp].GetValue(obj) == null)
+                if (propiedades[posProp].GetValue(obj) == null || (int)propiedades[posProp].GetValue(obj) == 0)
                 {
                     sum += long.Parse(row["dvh"].ToString());
                 }
-
             }
 
             long dvv = sum+dvh;
 
             _DVDAL.ActualizarDVV(dvv, nTabla);
             return dvh;
+        }
+
+        public static string RecalcularDV(BE.Usuario _usuario)
+        {
+            Bitacora _bitacoraBll = new Bitacora();
+
+            DAL.DigitoVerificador _DVDAL = new DAL.DigitoVerificador();
+
+            List<BE.DigitoVerificador> listaDvv = _DVDAL.TraerDVV();
+
+            foreach (BE.DigitoVerificador digito in listaDvv)
+            {
+                DataTable tabla = _DVDAL.TraerTabla(digito.nombreTabla);
+
+                /* CALCULO Y COMPARO DVV LA TABLA VERIFICADA CON EL ALMACENADO*/
+
+                long dvv = 0;
+                /* CALCULO Y COMPARO DVH DE CADA REGISTRO DE LA TABLA VERIFICADA */
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    string identificador="";
+                    long dvh = 0;
+
+                    foreach (DataColumn col in tabla.Columns)
+                    {
+                        long sumador = 0;
+                        if (col.ColumnName == "id" || col.ColumnName == "legajo")
+                        {
+                            identificador = col.ColumnName;
+                        }
+                        
+                        if (col.ColumnName != "id" && col.ColumnName != "legajo" && col.ColumnName != "dvh")
+                        {
+                            var cadena_ascii = ASCIIEncoding.ASCII.GetBytes(fila[col].ToString());
+                            for (int i = 0; i < cadena_ascii.Length; i++)
+                            {
+                                sumador += long.Parse(cadena_ascii[i].ToString()) * (i + 1);
+                            }
+                            dvh += sumador;
+                        }
+                    }
+                    dvv += dvh;
+
+                    _DVDAL.ActualizarDVH(dvh, digito.nombreTabla, identificador, fila[identificador].ToString());
+                }
+
+                _DVDAL.ActualizarDVV(dvv, digito.nombreTabla);
+            }
+
+            string descripcion_bitacora = $@"Se reestablecio la integridad del sistema";
+
+            _bitacoraBll.RegistrarBitacora(_usuario, descripcion_bitacora, 1);
+
+            return descripcion_bitacora;
         }
     }
 }

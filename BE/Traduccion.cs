@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace BE
 {
-    public interface IIdiomaObserver
+    public class Traduccion
     {
-        void UpdateLanguage(BE.Idioma idioma);
+        public Etiqueta Etiqueta { get; set; }
+        public string Texto { get; set; }
 
     }
 }

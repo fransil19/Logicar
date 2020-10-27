@@ -27,7 +27,6 @@ namespace UI
 
             BE.Patente patente = lboxPatNoAsig.SelectedItem as BE.Patente;
             int repetido = 0;
-
             foreach(BE.Patente pat in _listaAsignados)
             {
                 if (pat.Equals(patente))

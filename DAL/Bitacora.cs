@@ -21,7 +21,7 @@ namespace DAL
         public void RegistrarBitacora(BE.Bitacora bitacora)
         {
             string query = string.Format("INSERT INTO bitacora (id_usuario,descripcion,criticidad,fecha,dvh) VALUES ({0},'{1}',{2},'{3}',{4})",
-                bitacora.usuario.id, bitacora.descripcion, bitacora.criticidad, bitacora.fecha.ToString("yyyy-MM-dd HH:mm"), bitacora.dvh);
+                bitacora.usuario.id, bitacora.descripcion, bitacora.criticidad, bitacora.fecha.ToString("yyyy-MM-dd HH:mm:ss"), bitacora.dvh);
 
             _acceso.ExecuteNonQuery(query);
         }

@@ -193,6 +193,7 @@
             this.btnDesbloquear.TabIndex = 92;
             this.btnDesbloquear.Text = "Desbloquear";
             this.btnDesbloquear.UseVisualStyleBackColor = true;
+            this.btnDesbloquear.Click += new System.EventHandler(this.btnDesbloquear_Click);
             // 
             // ListaEmpleados
             // 

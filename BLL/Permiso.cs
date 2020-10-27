@@ -73,7 +73,97 @@ namespace BLL
 
         public void EliminarFamilia(BE.Familia familia)
         {
-            _permisosDAL.EliminarFamilia(familia);
+            var listaFamilias = GetAllFamilias();
+            var listaPatentes = GetAllPatentes();
+            Empleado _empleadoBll = new Empleado();
+            var listaEmpleados = _empleadoBll.ListarEmpleados();
+            HashSet<BE.Permiso> permisosUtilizados = new HashSet<BE.Permiso>();
+
+            foreach (BE.Permiso p in listaPatentes)
+            {/*
+                foreach (BE.Permiso fam in listaFamilias)
+                {
+                    if(familia.id != fam.id)
+                    {
+                        foreach(BE.Permiso pFam in fam.Hijos)
+                        {
+                            if(p.id == pFam.id)
+                            {
+                                permisosUtilizados.Add(p);
+                            }
+                        }
+                    }
+                }*/
+                foreach(BE.Empleado emp in listaEmpleados)
+                {
+                    foreach(BE.Permiso pEmp in emp.usuario.Permisos)
+                    {
+                        if (pEmp.Hijos.Count == 0)
+                        {
+                            if (p.id == pEmp.id)
+                            {
+                                permisosUtilizados.Add(p);
+                            }
+                        }
+                        else
+                        {
+                            foreach (BE.Permiso phijo in pEmp.Hijos)
+                            {
+                                if (p.id == phijo.id)
+                                {
+                                    permisosUtilizados.Add(p);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(listaPatentes.Count() == permisosUtilizados.Count())
+            {
+                _permisosDAL.EliminarFamilia(familia);
+            }
+            else
+            {
+                throw new Exception("No se puede borrar la familia porque hay permisos que quedarian sin utilizar");
+            }
+            
+        }
+
+        public bool PatenteEnUso(BE.Patente patente, BE.Familia familia)
+        {
+            Empleado _empleadoBll = new Empleado();
+            var listaEmpleados = _empleadoBll.ListarEmpleados();
+            bool enUso = false;
+            foreach(BE.Empleado emp in listaEmpleados)
+            {
+                foreach(BE.Permiso p in emp.usuario.Permisos)
+                {
+                    if (p.Hijos.Count == 0)
+                    {
+                        if(patente.id == p.id)
+                        {
+                            enUso = true;
+                            return enUso;
+                        }
+                    }
+                    else
+                    {
+                        if(p.id != familia.id)
+                        {
+                            foreach(BE.Permiso pFam in p.Hijos)
+                            {
+                                if (patente.id == pFam.id)
+                                {
+                                    enUso = true;
+                                    return enUso;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return enUso;
         }
 
     }

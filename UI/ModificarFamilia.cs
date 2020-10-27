@@ -56,8 +56,16 @@ namespace UI
         private void btnDesasignar_Click(object sender, EventArgs e)
         {
             BE.Patente patente = lboxPatAsig.SelectedItem as BE.Patente;
-            _listaAsignados.Remove(patente);
-            ActualizarlistAsignados(_listaAsignados);
+            bool enUso = _permisoBll.PatenteEnUso(patente, familia);
+            if (enUso)
+            {
+                _listaAsignados.Remove(patente);
+                ActualizarlistAsignados(_listaAsignados);
+            }
+            else
+            {
+                MessageBox.Show("No se puede remover el permiso, ya que no esta siendo utilizado por ninguna familia de permisos o usuario");
+            }
         }
 
         private void ActualizarlistAsignados(List<BE.Permiso> lista)

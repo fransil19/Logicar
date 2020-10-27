@@ -51,7 +51,7 @@ namespace DAL
             }
             else
             {
-                throw new Exception();
+                throw new Exception($@"No existe el usuario {user}");
             }
         }
 
@@ -85,7 +85,7 @@ namespace DAL
         {
             List<BE.Usuario> listaUsuarios = new List<BE.Usuario>();
             DataTable tb;
-            string query = string.Format("SELECT * FROM usuario WHERE usuario");
+            string query = string.Format("SELECT * FROM usuario");
             tb = _acceso.ExecuteReader(query);
 
             

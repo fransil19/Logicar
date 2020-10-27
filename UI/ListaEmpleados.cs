@@ -14,8 +14,12 @@ namespace UI
     public partial class ListaEmpleados : Form
     {
         BLL.Empleado _empleadoBLL;
+        BLL.Usuario _usuarioBll;
+        BLL.Permiso _permisoBll;
         public ListaEmpleados()
         {
+            _usuarioBll = new BLL.Usuario();
+            _permisoBll = new BLL.Permiso();
             _empleadoBLL = new BLL.Empleado();
             InitializeComponent();
         }
@@ -111,6 +115,24 @@ namespace UI
             {
                 _empleadoBLL.EliminarEmpleado(empleado);
                 MessageBox.Show("Empleado y usuario eliminado ");
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+
+            ActualizarGrilla();
+        }
+
+        private void btnDesbloquear_Click(object sender, EventArgs e)
+        {
+            int indice = (int)grillaEmpleado.CurrentRow.Cells[0].Value;
+            var listaEmpleados = _empleadoBLL.ListarEmpleados();
+            BE.Empleado empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
+            try
+            {
+                _usuarioBll.DesbloquearUsuario(empleado.usuario);
+                MessageBox.Show("Se reestablecio el usuario");
             }
             catch (Exception exp)
             {

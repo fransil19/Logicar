@@ -33,6 +33,7 @@ namespace DAL
             SqlCommand comando = new SqlCommand(query, con._con);
             SqlDataReader lector = comando.ExecuteReader();
             tabla.Load(lector);
+            lector.Close();
             con.Desconectar();
             return tabla;
         }

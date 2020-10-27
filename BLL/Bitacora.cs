@@ -14,11 +14,10 @@ namespace BLL
             _bitacoraDal = new DAL.Bitacora();
         }
 
-        public void RegistrarBitacora(BE.Usuario usuario, string descripcion, int criticidad)
+        public void RegistrarBitacora(BE.Usuario usuario, string descripcion, int criticidad, long digito = 1)
         {
             BE.Bitacora bitacora = new BE.Bitacora();
-            descripcion = Cifrado.Encriptar(descripcion,false);
-
+            descripcion = Cifrado.Encriptar(descripcion,true);
             DateTime fecha = DateTime.Now;
 
             bitacora.usuario = usuario;
@@ -26,9 +25,15 @@ namespace BLL
             bitacora.fecha = fecha;
             bitacora.criticidad = criticidad;
 
-            
-            long dvh = DigitoVerificador.CalcularDV(bitacora,"bitacora");
-            bitacora.dvh = dvh;
+            if(digito == 1)
+            {
+                long dvh = DigitoVerificador.CalcularDV(bitacora, "bitacora");
+                bitacora.dvh = dvh;
+            }
+            else
+            {
+                bitacora.dvh = digito;
+            }
 
             _bitacoraDal.RegistrarBitacora(bitacora);
         }
