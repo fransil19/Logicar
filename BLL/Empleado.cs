@@ -30,7 +30,7 @@ namespace BLL
                     throw new Exception("El empleado indicado ya existe.");
                 }
             }
-            catch(Exception e)
+            catch
             {
                 _empleadoDal.GuardarEmpleado(emp);
                 emp.usuario = _usuarioBLL.GenerarUsuario(emp);
@@ -63,7 +63,7 @@ namespace BLL
             {
                 foreach (BE.Empleado emp in listaEmpleados)
                 {
-                    if (empleado.legajo != emp.legajo)
+                    if (empleado.legajo != emp.legajo && emp.estado != 0)
                     {
                         foreach (BE.Permiso pemp in emp.usuario.Permisos)
                         {
@@ -99,6 +99,11 @@ namespace BLL
             {
                 throw new Exception("No puede dar de baja el usuario, quedarian permisos sin asignar");
             }
+        }
+
+        public BE.Empleado GetEmpleadoUsuario(BE.Usuario usuario)
+        {
+            return _empleadoDal.GetEmpleadoUsuario(usuario);
         }
 
     }

@@ -217,7 +217,9 @@
             this.Controls.Add(this.btnReestablecerDigitos);
             this.Controls.Add(this.btnRestaurarBase);
             this.Name = "ReestablecerSistema";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ReestablecerSistema";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ReestablecerSistema_FormClosing);
             this.Load += new System.EventHandler(this.ReestablecerSistema_Load);
             this.grpBitacora.ResumeLayout(false);
             this.grpBitacora.PerformLayout();

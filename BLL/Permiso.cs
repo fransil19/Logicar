@@ -42,6 +42,9 @@ namespace BLL
         public void GuardarFamilia(BE.Familia f)
         {
             _permisosDAL.InsertarFamilia(f);
+            Bitacora _bitacoraBll = new Bitacora();
+            var usuarioRegistra = Services.SessionManager.GetInstance.Usuario;
+            _bitacoraBll.RegistrarBitacora(usuarioRegistra, $@"Se creo la familia = {f.nombre}", 1);
         }
 
         public IList<BE.Patente> GetAllPatentes()
@@ -78,6 +81,8 @@ namespace BLL
             Empleado _empleadoBll = new Empleado();
             var listaEmpleados = _empleadoBll.ListarEmpleados();
             HashSet<BE.Permiso> permisosUtilizados = new HashSet<BE.Permiso>();
+            DAL.Usuario _usuarioDal = new DAL.Usuario();
+            //List<BE.Usuario> listaUsuarios = _usuarioDal.GetUsuariosFamilia(familia);
 
             foreach (BE.Permiso p in listaPatentes)
             {/*
@@ -107,20 +112,30 @@ namespace BLL
                         }
                         else
                         {
-                            foreach (BE.Permiso phijo in pEmp.Hijos)
+                            if (pEmp.id != familia.id)
                             {
-                                if (p.id == phijo.id)
+                                foreach (BE.Permiso phijo in pEmp.Hijos)
                                 {
-                                    permisosUtilizados.Add(p);
+                                    if (p.id == phijo.id)
+                                    {
+                                        permisosUtilizados.Add(p);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
-            if(listaPatentes.Count() == permisosUtilizados.Count())
+            
+            /*if (listaUsuarios.Count > 0)
             {
+                throw new Exception("La familia tiene usuarios asignados, por favor desasigne la familia del o los usuarios y vuelva a intentar");
+            }*/
+
+            if (listaPatentes.Count() == permisosUtilizados.Count())
+            {
+                familia.VaciarHijos();
+                GuardarFamilia(familia);
                 _permisosDAL.EliminarFamilia(familia);
             }
             else
@@ -137,26 +152,29 @@ namespace BLL
             bool enUso = false;
             foreach(BE.Empleado emp in listaEmpleados)
             {
-                foreach(BE.Permiso p in emp.usuario.Permisos)
+                if (emp.estado == 1)
                 {
-                    if (p.Hijos.Count == 0)
+                    foreach (BE.Permiso p in emp.usuario.Permisos)
                     {
-                        if(patente.id == p.id)
+                        if (p.Hijos.Count == 0)
                         {
-                            enUso = true;
-                            return enUso;
-                        }
-                    }
-                    else
-                    {
-                        if(p.id != familia.id)
-                        {
-                            foreach(BE.Permiso pFam in p.Hijos)
+                            if (patente.id == p.id)
                             {
-                                if (patente.id == pFam.id)
+                                enUso = true;
+                                return enUso;
+                            }
+                        }
+                        else
+                        {
+                            if (p.id != familia.id)
+                            {
+                                foreach (BE.Permiso pFam in p.Hijos)
                                 {
-                                    enUso = true;
-                                    return enUso;
+                                    if (patente.id == pFam.id)
+                                    {
+                                        enUso = true;
+                                        return enUso;
+                                    }
                                 }
                             }
                         }
@@ -166,5 +184,103 @@ namespace BLL
             return enUso;
         }
 
+        public bool PatenteEnUso(BE.Patente patente, BE.Empleado empleado)
+        {
+            Empleado _empleadoBll = new Empleado();
+            var listaEmpleados = _empleadoBll.ListarEmpleados();
+            var listaFamilias = GetAllFamilias();
+            bool enUso = false;
+
+            foreach (BE.Empleado emp in listaEmpleados)
+            {
+                if (emp.estado == 1 && emp.usuario.id != empleado.usuario.id)
+                {
+                    foreach (BE.Permiso p in emp.usuario.Permisos)
+                    {
+                        if (p.Hijos.Count == 0)
+                        {
+                            if (patente.id == p.id)
+                            {
+                                enUso = true;
+                                return enUso;
+                            }
+                        }
+                        else
+                        {
+                            foreach (BE.Permiso pFam in p.Hijos)
+                            {
+                                if (patente.id == pFam.id)
+                                {
+                                        enUso = true;
+                                        return enUso;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (BE.Familia familia in listaFamilias)
+            {
+                FillFamilyComponents(familia);
+                foreach (BE.Permiso pFam in familia.Hijos)
+                {
+                    if (patente.id == pFam.id)
+                    {
+                        enUso = true;
+                        return enUso;
+                    }
+                }
+            }
+            return enUso;
+        }
+
+        public bool FamiliaEnUso(BE.Familia familia)
+        {
+            Empleado _empleadoBll = new Empleado();
+            var listaEmpleados = _empleadoBll.ListarEmpleados();
+            bool enUso = false;
+            if(familia.Hijos.Count() != 0) 
+            { 
+                foreach(BE.Permiso patente in familia.Hijos)
+                {
+                    foreach (BE.Empleado emp in listaEmpleados)
+                    {
+                        if (emp.estado == 1)
+                        {
+                            foreach (BE.Permiso p in emp.usuario.Permisos)
+                            {
+                                if (p.Hijos.Count == 0)
+                                {
+                                    if (patente.id == p.id)
+                                    {
+                                        enUso = true;
+                                        return enUso;
+                                    }
+                                }
+                                else
+                                {
+                                    if (p.id != familia.id)
+                                    {
+                                        foreach (BE.Permiso pFam in p.Hijos)
+                                        {
+                                            if (patente.id == pFam.id)
+                                            {
+                                                enUso = true;
+                                                return enUso;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                enUso = true;
+            }
+            return enUso;
+        }
     }
 }

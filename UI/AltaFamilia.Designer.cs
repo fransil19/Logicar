@@ -186,7 +186,9 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Name = "AltaFamilia";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AltaFamilia";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AltaFamilia_FormClosing);
             this.Load += new System.EventHandler(this.AltaFamilia_Load);
             this.grpDatosDeFamilia.ResumeLayout(false);
             this.grpDatosDeFamilia.PerformLayout();

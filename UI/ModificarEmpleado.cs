@@ -10,17 +10,19 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class ModificarEmpleado : Form
+    public partial class ModificarEmpleado : Form, Services.IIdiomaObserver
     {
         BE.Empleado _empleado;
         public ModificarEmpleado(BE.Empleado empleado)
         {
             _empleado = empleado;
             InitializeComponent();
+            Traducir();
         }
 
         private void lblModificarEmpleado_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             txtLegajo.Text = _empleado.legajo.ToString().PadLeft(6, '0');
             txtNombre.Text = _empleado.nombre;
             txtApellido.Text = _empleado.apellido;
@@ -87,6 +89,57 @@ namespace UI
             {
                 this.Close();
             }
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblModificarEmpleado.Name != null && traducciones.ContainsKey(lblModificarEmpleado.Name.ToString()))
+                this.lblModificarEmpleado.Text = traducciones[lblModificarEmpleado.Name.ToString()].Texto;
+
+
+            if (lblNombre.Name != null && traducciones.ContainsKey(lblNombre.Name.ToString()))
+                this.lblNombre.Text = traducciones[lblNombre.Name.ToString()].Texto;
+
+
+            if (lblApellido.Name != null && traducciones.ContainsKey(lblApellido.Name.ToString()))
+                this.lblApellido.Text = traducciones[lblApellido.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (lblTDocumento.Name != null && traducciones.ContainsKey(lblTDocumento.Name.ToString()))
+                this.lblTDocumento.Text = traducciones[lblTDocumento.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (lblNDocumento.Name != null && traducciones.ContainsKey(lblNDocumento.Name.ToString()))
+                this.lblNDocumento.Text = traducciones[lblNDocumento.Name.ToString()].Texto;
+
+            if (lblDomicilio.Name != null && traducciones.ContainsKey(lblDomicilio.Name.ToString()))
+                this.lblDomicilio.Text = traducciones[lblDomicilio.Name.ToString()].Texto;
+
+            if (lblEmail.Name != null && traducciones.ContainsKey(lblEmail.Name.ToString()))
+                this.lblEmail.Text = traducciones[lblEmail.Name.ToString()].Texto;
+
+            if (lblTelefono.Name != null && traducciones.ContainsKey(lblTelefono.Name.ToString()))
+                this.lblTelefono.Text = traducciones[lblTelefono.Name.ToString()].Texto;
+        }
+
+        private void ModificarEmpleado_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

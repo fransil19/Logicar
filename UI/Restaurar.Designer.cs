@@ -71,6 +71,7 @@
             this.btnOrigen.TabIndex = 110;
             this.btnOrigen.Text = "...";
             this.btnOrigen.UseVisualStyleBackColor = true;
+            this.btnOrigen.Click += new System.EventHandler(this.btnOrigen_Click);
             // 
             // txtDestino
             // 
@@ -99,6 +100,7 @@
             this.btnCancelar.TabIndex = 117;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnRestaurar
             // 
@@ -109,6 +111,7 @@
             this.btnRestaurar.TabIndex = 116;
             this.btnRestaurar.Text = "Restaurar";
             this.btnRestaurar.UseVisualStyleBackColor = true;
+            this.btnRestaurar.Click += new System.EventHandler(this.btnRestaurar_Click);
             // 
             // label7
             // 
@@ -132,7 +135,10 @@
             this.Controls.Add(this.btnRestaurar);
             this.Controls.Add(this.label7);
             this.Name = "Restaurar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Restaurar";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Restaurar_FormClosing);
+            this.Load += new System.EventHandler(this.Restaurar_Load);
             this.grpRestaurar.ResumeLayout(false);
             this.grpRestaurar.PerformLayout();
             this.ResumeLayout(false);

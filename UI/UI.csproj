@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,6 +66,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdquirirVehiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdquirirVehiculo.Designer.cs">
+      <DependentUpon>AdquirirVehiculo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AltaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltaCliente.Designer.cs">
+      <DependentUpon>AltaCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="AltaEmpleado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +89,12 @@
     </Compile>
     <Compile Include="AltaFamilia.Designer.cs">
       <DependentUpon>AltaFamilia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AltaVehiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltaVehiculo.Designer.cs">
+      <DependentUpon>AltaVehiculo.cs</DependentUpon>
     </Compile>
     <Compile Include="AsignarFamilias.cs">
       <SubType>Form</SubType>
@@ -89,6 +113,30 @@
     </Compile>
     <Compile Include="Backup.Designer.cs">
       <DependentUpon>Backup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bitacora.Designer.cs">
+      <DependentUpon>Bitacora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BuscarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuscarCliente.Designer.cs">
+      <DependentUpon>BuscarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CalcularEstado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalcularEstado.Designer.cs">
+      <DependentUpon>CalcularEstado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListaClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListaClientes.Designer.cs">
+      <DependentUpon>ListaClientes.cs</DependentUpon>
     </Compile>
     <Compile Include="ListaEmpleados.cs">
       <SubType>Form</SubType>
@@ -114,6 +162,12 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModificarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModificarCliente.Designer.cs">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModificarEmpleado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,17 +188,38 @@
     <Compile Include="ReestablecerSistema.Designer.cs">
       <DependentUpon>ReestablecerSistema.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReporteVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteVentas.Designer.cs">
+      <DependentUpon>ReporteVentas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Restaurar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Restaurar.Designer.cs">
       <DependentUpon>Restaurar.cs</DependentUpon>
     </Compile>
+    <Compile Include="VenderVehiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VenderVehiculo.Designer.cs">
+      <DependentUpon>VenderVehiculo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AdquirirVehiculo.resx">
+      <DependentUpon>AdquirirVehiculo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AltaCliente.resx">
+      <DependentUpon>AltaCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AltaEmpleado.resx">
       <DependentUpon>AltaEmpleado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AltaFamilia.resx">
       <DependentUpon>AltaFamilia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AltaVehiculo.resx">
+      <DependentUpon>AltaVehiculo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AsignarFamilias.resx">
       <DependentUpon>AsignarFamilias.cs</DependentUpon>
@@ -154,6 +229,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Backup.resx">
       <DependentUpon>Backup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bitacora.resx">
+      <DependentUpon>Bitacora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscarCliente.resx">
+      <DependentUpon>BuscarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CalcularEstado.resx">
+      <DependentUpon>CalcularEstado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaClientes.resx">
+      <DependentUpon>ListaClientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListaEmpleados.resx">
       <DependentUpon>ListaEmpleados.cs</DependentUpon>
@@ -166,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModificarCliente.resx">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModificarEmpleado.resx">
       <DependentUpon>ModificarEmpleado.cs</DependentUpon>
@@ -185,9 +275,16 @@
     <EmbeddedResource Include="ReestablecerSistema.resx">
       <DependentUpon>ReestablecerSistema.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReporteVentas.resx">
+      <DependentUpon>ReporteVentas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Restaurar.resx">
       <DependentUpon>Restaurar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VenderVehiculo.resx">
+      <DependentUpon>VenderVehiculo.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

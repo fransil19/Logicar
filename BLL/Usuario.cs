@@ -33,6 +33,11 @@ namespace BLL
                 //Usuario o Contraseña incorrectos
                 throw new Exception("Usuario o contraseña incorrectos");
             }
+            else if (user.estado == 0)
+            {
+                //Usuario Inactivo
+                throw new Exception("El usuario se encuentra inactivo");
+            }
 
             return user;
         }
@@ -79,6 +84,12 @@ namespace BLL
             _usuarioDal = new DAL.Usuario();
             _usuarioDal.Insertar(usuario);
             EnviarPassword(Cifrado.Desencriptar(usuario.usuario), pass);
+            var usuarioRegistra = usuario;
+            if (Services.SessionManager.IsLogged()) 
+            {
+                usuarioRegistra = Services.SessionManager.GetInstance.Usuario;
+            }
+            _bitacoraBLL.RegistrarBitacora(usuarioRegistra, $@"Se creo el usuario = {Cifrado.Desencriptar(usuario.usuario)}.", 1);
             return usuario;
         }
 
@@ -198,12 +209,24 @@ namespace BLL
         {
             usuario.contador = 0;
             _usuarioDal.Actualizar(usuario);
+            _bitacoraBLL.RegistrarBitacora(usuario, $@"Se desbloqueo el usuario {Cifrado.Desencriptar(usuario.usuario)}", 1);
         }
 
         public void DesbloquearUsuario(BE.Usuario usuario)
         {
             usuario.contador = 0;
             _usuarioDal.Actualizar(usuario);
+            var usuarioRegistra = new BE.Usuario();
+            if (Services.SessionManager.IsLogged())
+            {
+                usuarioRegistra = Services.SessionManager.GetInstance.Usuario;
+            }
+            else
+            {
+                string nombre_usuario = Cifrado.Encriptar("SYSTEM", true);
+                usuarioRegistra = _usuarioDal.GetUsuarioUser(nombre_usuario);
+            }
+            _bitacoraBLL.RegistrarBitacora(usuarioRegistra, $@"Se desbloqueo el usuario {Cifrado.Desencriptar(usuario.usuario)}", 1);
         }
 
         private void EnviarPassword(string usuario, string pass)

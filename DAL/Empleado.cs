@@ -40,30 +40,28 @@ namespace DAL
         public BE.Empleado BuscarEmpleado(BE.Empleado emp)
         {
             string sql = $@"SELECT * FROM empleado where tipo_documento = {emp.tipoDocumento} and nro_documento = {emp.nroDocumento}";
+            DataTable tabla = _acceso.ExecuteReader(sql);
 
-            var reader = _acceso.GetReader(sql);
-            if (reader.HasRows)
+            if (tabla.Rows.Count > 0)
             {
                 BE.Empleado empleado = new BE.Empleado();
-                while (reader.Read())
+                foreach (DataRow fila in tabla.Rows)
                 {
-                    empleado.legajo = int.Parse(reader["nombre"].ToString());
-                    empleado.nombre = reader["nombre"].ToString();
-                    empleado.apellido = reader["apellido"].ToString();
-                    empleado.tipoDocumento = int.Parse(reader["tipo_documento"].ToString());
-                    empleado.nroDocumento = int.Parse(reader["nro_documento"].ToString());
-                    empleado.domicilio = reader["domicilio"].ToString();
-                    empleado.email = reader["email"].ToString();
-                    empleado.estado = int.Parse(reader["estado"].ToString());
-                    empleado.telefono = int.Parse(reader["telefono"].ToString());
-                    empleado.usuario = _usuarioDal.GetUsuarioId(int.Parse(reader["usuario"].ToString()));
+                    empleado.legajo = int.Parse(fila["legajo"].ToString());
+                    empleado.nombre = fila["nombre"].ToString();
+                    empleado.apellido = fila["apellido"].ToString();
+                    empleado.tipoDocumento = int.Parse(fila["tipo_documento"].ToString());
+                    empleado.nroDocumento = int.Parse(fila["nro_documento"].ToString());
+                    empleado.domicilio = fila["domicilio"].ToString();
+                    empleado.email = fila["email"].ToString();
+                    empleado.estado = int.Parse(fila["estado"].ToString());
+                    empleado.telefono = fila["telefono"] != DBNull.Value ? int.Parse(fila["telefono"].ToString()) : 0;
+                    empleado.usuario = _usuarioDal.GetUsuarioId(int.Parse(fila["usuario"].ToString()));
                 }
-                _acceso.CloseReader(reader);
                 return empleado;
             }
             else
             {
-                _acceso.CloseReader(reader);
                 throw new Exception("No se encontro el empleado");
             }
             
@@ -107,6 +105,68 @@ namespace DAL
                          estado={empleado.estado},telefono= {empleado.telefono}, id_usuario = {empleado.usuario.id} WHERE legajo = {empleado.legajo}
                          ;";
             _acceso.ExecuteNonQuery(sql);
+        }
+
+        public BE.Empleado GetEmpleadoUsuario(BE.Usuario usuario)
+        {
+            string sql = $@"SELECT * FROM empleado where id_usuario = {usuario.id}";
+
+            var reader = _acceso.GetReader(sql);
+            if (reader.HasRows)
+            {
+                BE.Empleado empleado = new BE.Empleado();
+                while (reader.Read())
+                {
+                    empleado.legajo = int.Parse(reader["legajo"].ToString());
+                    empleado.nombre = reader["nombre"].ToString();
+                    empleado.apellido = reader["apellido"].ToString();
+                    empleado.tipoDocumento = int.Parse(reader["tipo_documento"].ToString());
+                    empleado.nroDocumento = int.Parse(reader["nro_documento"].ToString());
+                    empleado.domicilio = reader["domicilio"].ToString();
+                    empleado.email = reader["email"].ToString();
+                    empleado.estado = int.Parse(reader["estado"].ToString());
+                    empleado.telefono = reader["telefono"] != DBNull.Value ? int.Parse(reader["telefono"].ToString()) : 0;
+                    empleado.usuario = usuario;
+                }
+                _acceso.CloseReader(reader);
+                return empleado;
+            }
+            else
+            {
+                _acceso.CloseReader(reader);
+                throw new Exception("No se encontro el empleado");
+            }
+
+        }
+
+        public BE.Empleado BuscarEmpleadoLegajo(int legajo)
+        {
+            string sql = $@"SELECT * FROM empleado where legajo = {legajo}";
+            DataTable tabla = _acceso.ExecuteReader(sql);
+
+            if (tabla.Rows.Count > 0)
+            {
+                BE.Empleado empleado = new BE.Empleado();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    empleado.legajo = int.Parse(fila["legajo"].ToString());
+                    empleado.nombre = fila["nombre"].ToString();
+                    empleado.apellido = fila["apellido"].ToString();
+                    empleado.tipoDocumento = int.Parse(fila["tipo_documento"].ToString());
+                    empleado.nroDocumento = int.Parse(fila["nro_documento"].ToString());
+                    empleado.domicilio = fila["domicilio"].ToString();
+                    empleado.email = fila["email"].ToString();
+                    empleado.estado = int.Parse(fila["estado"].ToString());
+                    empleado.telefono = fila["telefono"] != DBNull.Value ? int.Parse(fila["telefono"].ToString()) : 0;
+                    empleado.usuario = _usuarioDal.GetUsuarioId(int.Parse(fila["id_usuario"].ToString()));
+                }
+                return empleado;
+            }
+            else
+            {
+                throw new Exception("No se encontro el empleado");
+            }
+
         }
     }
 }

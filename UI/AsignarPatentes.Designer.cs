@@ -209,7 +209,9 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Name = "AsignarPatentes";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AsignarPatentes";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AsignarPatentes_FormClosing);
             this.Load += new System.EventHandler(this.AsignarPatentes_Load);
             this.grpDatosUsuario.ResumeLayout(false);
             this.grpDatosUsuario.PerformLayout();

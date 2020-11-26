@@ -44,11 +44,11 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.grpDatosEmpleado = new System.Windows.Forms.GroupBox();
+            this.lblLegajo = new System.Windows.Forms.Label();
+            this.txtLegajo = new System.Windows.Forms.TextBox();
             this.lblNDocumento = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lblModificarEmpleado = new System.Windows.Forms.Label();
-            this.lblLegajo = new System.Windows.Forms.Label();
-            this.txtLegajo = new System.Windows.Forms.TextBox();
             this.grpDatosEmpleado.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -219,6 +219,25 @@
             this.grpDatosEmpleado.TabStop = false;
             this.grpDatosEmpleado.Text = "Datos del Empleado";
             // 
+            // lblLegajo
+            // 
+            this.lblLegajo.AutoSize = true;
+            this.lblLegajo.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLegajo.Location = new System.Drawing.Point(18, 42);
+            this.lblLegajo.Name = "lblLegajo";
+            this.lblLegajo.Size = new System.Drawing.Size(44, 17);
+            this.lblLegajo.TabIndex = 90;
+            this.lblLegajo.Text = "Legajo";
+            // 
+            // txtLegajo
+            // 
+            this.txtLegajo.Enabled = false;
+            this.txtLegajo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtLegajo.Location = new System.Drawing.Point(125, 42);
+            this.txtLegajo.Name = "txtLegajo";
+            this.txtLegajo.Size = new System.Drawing.Size(294, 20);
+            this.txtLegajo.TabIndex = 91;
+            // 
             // lblNDocumento
             // 
             this.lblNDocumento.AutoSize = true;
@@ -250,25 +269,6 @@
             this.lblModificarEmpleado.TabIndex = 94;
             this.lblModificarEmpleado.Text = "Modificar Empleado";
             // 
-            // lblLegajo
-            // 
-            this.lblLegajo.AutoSize = true;
-            this.lblLegajo.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLegajo.Location = new System.Drawing.Point(18, 42);
-            this.lblLegajo.Name = "lblLegajo";
-            this.lblLegajo.Size = new System.Drawing.Size(44, 17);
-            this.lblLegajo.TabIndex = 90;
-            this.lblLegajo.Text = "Legajo";
-            // 
-            // txtLegajo
-            // 
-            this.txtLegajo.Enabled = false;
-            this.txtLegajo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.txtLegajo.Location = new System.Drawing.Point(125, 42);
-            this.txtLegajo.Name = "txtLegajo";
-            this.txtLegajo.Size = new System.Drawing.Size(294, 20);
-            this.txtLegajo.TabIndex = 91;
-            // 
             // ModificarEmpleado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,7 +280,9 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblModificarEmpleado);
             this.Name = "ModificarEmpleado";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ModificarEmpleado";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ModificarEmpleado_FormClosing);
             this.Load += new System.EventHandler(this.lblModificarEmpleado_Load);
             this.grpDatosEmpleado.ResumeLayout(false);
             this.grpDatosEmpleado.PerformLayout();

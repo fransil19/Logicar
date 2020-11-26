@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class AsignarPatentes : Form
+    public partial class AsignarPatentes : Form, Services.IIdiomaObserver
     {
         BE.Empleado _empleado;
         BLL.Permiso _permisoBll;
@@ -24,10 +24,12 @@ namespace UI
             _usuarioBll = new BLL.Usuario();
             _listaAsignados = _empleado.usuario.Permisos != null ? _empleado.usuario.Permisos.FindAll(r => r.esFamilia == 0) : new List<BE.Permiso>();
             InitializeComponent();
+            Traducir();
         }
 
         private void AsignarPatentes_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             txtUsuario.Text = BLL.Cifrado.Desencriptar(_empleado.usuario.usuario);
             var lista = _permisoBll.GetAllPatentes();
 
@@ -68,13 +70,24 @@ namespace UI
         private void btnDesasignar_Click(object sender, EventArgs e)
         {
             BE.Patente patente = lboxPatAsignadas.SelectedItem as BE.Patente;
-            _listaAsignados.Remove(patente);
-            ActualizarlistAsignados(_listaAsignados);
+            bool enUso = _permisoBll.PatenteEnUso(patente, _empleado);
+
+            if (enUso) 
+            {
+                _listaAsignados.Remove(patente);
+                ActualizarlistAsignados(_listaAsignados);
+            }
+            else
+            {
+                MessageBox.Show("No se puede desasignar el permiso, quedaria sin uso y eso no es posible");
+            }
+            
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            _empleado.usuario.Permisos.FindAll(r => r.esFamilia == 0).Clear();
+            _empleado.usuario.Permisos.RemoveAll(r => r.esFamilia == 0);
+
             foreach(BE.Patente pat in _listaAsignados)
             {
                 _empleado.usuario.Permisos.Add(pat);
@@ -95,6 +108,56 @@ namespace UI
             {
                 this.Close();
             }
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblAPatUsuario.Name != null && traducciones.ContainsKey(lblAPatUsuario.Name.ToString()))
+                this.lblAPatUsuario.Text = traducciones[lblAPatUsuario.Name.ToString()].Texto;
+
+
+            if (lblUsuario.Name != null && traducciones.ContainsKey(lblUsuario.Name.ToString()))
+                this.lblUsuario.Text = traducciones[lblUsuario.Name.ToString()].Texto;
+
+            if (grpDatosUsuario.Name != null && traducciones.ContainsKey(grpDatosUsuario.Name.ToString()))
+                this.grpDatosUsuario.Text = traducciones[grpDatosUsuario.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (grpAsignarPatentes.Name != null && traducciones.ContainsKey(grpAsignarPatentes.Name.ToString()))
+                this.grpAsignarPatentes.Text = traducciones[grpAsignarPatentes.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (btnAsignar.Name != null && traducciones.ContainsKey(btnAsignar.Name.ToString()))
+                this.btnAsignar.Text = traducciones[btnAsignar.Name.ToString()].Texto;
+
+            if (btnDesasignar.Name != null && traducciones.ContainsKey(btnDesasignar.Name.ToString()))
+                this.btnDesasignar.Text = traducciones[btnDesasignar.Name.ToString()].Texto;
+
+            if (lblPatAsignadas.Name != null && traducciones.ContainsKey(lblPatAsignadas.Name.ToString()))
+                this.lblPatAsignadas.Text = traducciones[lblPatAsignadas.Name.ToString()].Texto;
+
+            if (lblPatDisponibles.Name != null && traducciones.ContainsKey(lblPatDisponibles.Name.ToString()))
+                this.lblPatDisponibles.Text = traducciones[lblPatDisponibles.Name.ToString()].Texto;
+        }
+
+        private void AsignarPatentes_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

@@ -187,7 +187,9 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Name = "ModificarFamilia";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ModificarFamilia";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ModificarFamilia_FormClosing);
             this.Load += new System.EventHandler(this.ModificarFamilia_Load);
             this.grpDatosDeFamilia.ResumeLayout(false);
             this.grpDatosDeFamilia.PerformLayout();

@@ -240,17 +240,6 @@ namespace DAL
 
         public void EliminarFamilia(BE.Familia familia)
         {
-            Usuario _usuarioDal = new Usuario();
-            List<BE.Usuario> listaUsuarios = _usuarioDal.GetUsuariosFamilia(familia);
-            if (listaUsuarios.Count > 0)
-            {
-                throw new Exception("La familia tiene usuarios asignados, por favor desasigne la familia del o los usuarios y vuelva a intentar");
-            }
-            if (familia.Hijos.Count > 0)
-            {
-                throw new Exception("La familia tiene patentes asignadas, por favor desasigne las patentes y vuelva a intentar");
-            }
-
             string sql = $@"DELETE FROM patente where id = {familia.id}";
             _acceso.ExecuteNonQuery(sql);
         }

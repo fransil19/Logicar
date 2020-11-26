@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace UI
 {
-    public partial class ListaEmpleados : Form
+    public partial class ListaEmpleados : Form, Services.IIdiomaObserver
     {
         BLL.Empleado _empleadoBLL;
         BLL.Usuario _usuarioBll;
@@ -22,6 +22,7 @@ namespace UI
             _permisoBll = new BLL.Permiso();
             _empleadoBLL = new BLL.Empleado();
             InitializeComponent();
+            Traducir();
         }
 
         private void ActualizarGrilla()
@@ -45,6 +46,7 @@ namespace UI
 
         private void ListaEmpleados_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             ActualizarGrilla();
         }
 
@@ -111,6 +113,11 @@ namespace UI
             int indice = (int)grillaEmpleado.CurrentRow.Cells[0].Value;
             var listaEmpleados = _empleadoBLL.ListarEmpleados();
             BE.Empleado empleado = listaEmpleados.Where(i => i.legajo == indice).FirstOrDefault();
+            if(empleado.estado == 0)
+            {
+                MessageBox.Show("El empleado ya se encuentra inactivo");
+                return;
+            }
             try
             {
                 _empleadoBLL.EliminarEmpleado(empleado);
@@ -140,6 +147,60 @@ namespace UI
             }
 
             ActualizarGrilla();
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblListaEmpleados.Name != null && traducciones.ContainsKey(lblListaEmpleados.Name.ToString()))
+                this.lblListaEmpleados.Text = traducciones[lblListaEmpleados.Name.ToString()].Texto;
+
+
+            if (lblUsuario.Name != null && traducciones.ContainsKey(lblUsuario.Name.ToString()))
+                this.lblUsuario.Text = traducciones[lblUsuario.Name.ToString()].Texto;
+
+
+            if (grpUsuarioElegido.Name != null && traducciones.ContainsKey(grpUsuarioElegido.Name.ToString()))
+                this.grpUsuarioElegido.Text = traducciones[grpUsuarioElegido.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (btnModificar.Name != null && traducciones.ContainsKey(btnModificar.Name.ToString()))
+                this.btnModificar.Text = traducciones[btnModificar.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (btnEliminar.Name != null && traducciones.ContainsKey(btnEliminar.Name.ToString()))
+                this.btnEliminar.Text = traducciones[btnEliminar.Name.ToString()].Texto;
+
+            if (btnDesbloquear.Name != null && traducciones.ContainsKey(btnDesbloquear.Name.ToString()))
+                this.btnDesbloquear.Text = traducciones[btnDesbloquear.Name.ToString()].Texto;
+
+            if (btnAdminFam.Name != null && traducciones.ContainsKey(btnAdminFam.Name.ToString()))
+                this.btnAdminFam.Text = traducciones[btnAdminFam.Name.ToString()].Texto;
+
+            if (btnAdminPat.Name != null && traducciones.ContainsKey(btnAdminPat.Name.ToString()))
+                this.btnAdminPat.Text = traducciones[btnAdminPat.Name.ToString()].Texto;
+
+            if (btnAgregarEmpleado.Name != null && traducciones.ContainsKey(btnAgregarEmpleado.Name.ToString()))
+                this.btnAgregarEmpleado.Text = traducciones[btnAgregarEmpleado.Name.ToString()].Texto;
+        }
+
+        private void ListaEmpleados_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

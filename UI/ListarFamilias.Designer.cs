@@ -175,7 +175,9 @@
             this.Controls.Add(this.grillaFamilias);
             this.Controls.Add(this.label7);
             this.Name = "ListarFamilias";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ListarFamilias";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ListarFamilias_FormClosing);
             this.Load += new System.EventHandler(this.ListarFamilias_Load);
             this.grpFamiliaElegida.ResumeLayout(false);
             this.grpFamiliaElegida.PerformLayout();

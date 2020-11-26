@@ -10,17 +10,20 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class ListarFamilias : Form
+    public partial class ListarFamilias : Form, Services.IIdiomaObserver
     {
         BLL.Permiso _permisoBLL;
+        Point location;
         public ListarFamilias()
         {
             _permisoBLL = new BLL.Permiso();
             InitializeComponent();
+            Traducir();
         }
 
         private void ListarFamilias_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             CargarFamilias();
         }
 
@@ -43,6 +46,7 @@ namespace UI
 
         private void btnAgregarFamilia_Click(object sender, EventArgs e)
         {
+            location = this.Location;
             this.Hide();
             AltaFamilia formAFamilia = new AltaFamilia();
             formAFamilia.MdiParent = this.ParentForm;
@@ -104,8 +108,54 @@ namespace UI
 
         private void Form_Closed(object sender, FormClosedEventArgs e)
         {
+            this.Location = location;
             this.Show();
             CargarFamilias();
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {          
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblListaDeFamilias.Name != null && traducciones.ContainsKey(lblListaDeFamilias.Name.ToString()))
+                this.lblListaDeFamilias.Text = traducciones[lblListaDeFamilias.Name.ToString()].Texto;
+
+
+            if (lblNombre.Name != null && traducciones.ContainsKey(lblNombre.Name.ToString()))
+                this.lblNombre.Text = traducciones[lblNombre.Name.ToString()].Texto;
+
+
+            if (grpFamiliaElegida.Name != null && traducciones.ContainsKey(grpFamiliaElegida.Name.ToString()))
+                this.grpFamiliaElegida.Text = traducciones[grpFamiliaElegida.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (btnAgregarFamilia.Name != null && traducciones.ContainsKey(btnAgregarFamilia.Name.ToString()))
+                this.btnAgregarFamilia.Text = traducciones[btnAgregarFamilia.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (btnEliminarFamilia.Name != null && traducciones.ContainsKey(btnEliminarFamilia.Name.ToString()))
+                this.btnEliminarFamilia.Text = traducciones[btnEliminarFamilia.Name.ToString()].Texto;
+
+            if (btnModificarFamilia.Name != null && traducciones.ContainsKey(btnModificarFamilia.Name.ToString()))
+                this.btnModificarFamilia.Text = traducciones[btnModificarFamilia.Name.ToString()].Texto;
+        }
+
+        private void ListarFamilias_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

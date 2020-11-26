@@ -209,7 +209,9 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Name = "AsignarFamilias";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AsignarFamilias";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AsignarFamilias_FormClosing);
             this.Load += new System.EventHandler(this.AsignarFamilias_Load);
             this.grpDatosUsuario.ResumeLayout(false);
             this.grpDatosUsuario.PerformLayout();

@@ -76,9 +76,7 @@ namespace UI
                         }
                     }
                 }
-
-
-                usuario.contador = 0;
+                _usuarioBLL.DesbloquearUsuario(usuario);
                 _permisoBll.FillUserComponents(usuario);
                 var _esAdmin = _usuarioBLL.VerificarPermisos(usuario);
 

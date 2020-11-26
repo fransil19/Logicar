@@ -46,9 +46,9 @@ namespace DAL
                 _acceso.ExecuteNonQuery(Consulta);
                 mensaje = "El restore se realizó correctamente.";
             }
-            catch
+            catch(Exception e)
             {
-                mensaje = "Error al realizar el restore.";
+                mensaje = e.Message;
             }
             return mensaje;
         }

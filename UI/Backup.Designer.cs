@@ -30,10 +30,10 @@
         {
             this.label7 = new System.Windows.Forms.Label();
             this.grpBackup = new System.Windows.Forms.GroupBox();
+            this.btnDestino = new System.Windows.Forms.Button();
+            this.txtDestino = new System.Windows.Forms.TextBox();
             this.lblDestino = new System.Windows.Forms.Label();
             this.lblBackup = new System.Windows.Forms.Label();
-            this.txtDestino = new System.Windows.Forms.TextBox();
-            this.btnDestino = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardarBackup = new System.Windows.Forms.Button();
             this.grpBackup.SuspendLayout();
@@ -63,6 +63,25 @@
             this.grpBackup.TabStop = false;
             this.grpBackup.Text = "Backup";
             // 
+            // btnDestino
+            // 
+            this.btnDestino.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic);
+            this.btnDestino.Location = new System.Drawing.Point(549, 48);
+            this.btnDestino.Name = "btnDestino";
+            this.btnDestino.Size = new System.Drawing.Size(29, 30);
+            this.btnDestino.TabIndex = 110;
+            this.btnDestino.Text = "...";
+            this.btnDestino.UseVisualStyleBackColor = true;
+            this.btnDestino.Click += new System.EventHandler(this.btnDestino_Click);
+            // 
+            // txtDestino
+            // 
+            this.txtDestino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtDestino.Location = new System.Drawing.Point(64, 52);
+            this.txtDestino.Name = "txtDestino";
+            this.txtDestino.Size = new System.Drawing.Size(468, 20);
+            this.txtDestino.TabIndex = 109;
+            // 
             // lblDestino
             // 
             this.lblDestino.AutoSize = true;
@@ -82,25 +101,6 @@
             this.lblBackup.Size = new System.Drawing.Size(120, 45);
             this.lblBackup.TabIndex = 110;
             this.lblBackup.Text = "Backup";
-            // 
-            // txtDestino
-            // 
-            this.txtDestino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.txtDestino.Location = new System.Drawing.Point(64, 52);
-            this.txtDestino.Name = "txtDestino";
-            this.txtDestino.Size = new System.Drawing.Size(468, 20);
-            this.txtDestino.TabIndex = 109;
-            // 
-            // btnDestino
-            // 
-            this.btnDestino.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic);
-            this.btnDestino.Location = new System.Drawing.Point(549, 48);
-            this.btnDestino.Name = "btnDestino";
-            this.btnDestino.Size = new System.Drawing.Size(29, 30);
-            this.btnDestino.TabIndex = 110;
-            this.btnDestino.Text = "...";
-            this.btnDestino.UseVisualStyleBackColor = true;
-            this.btnDestino.Click += new System.EventHandler(this.btnDestino_Click);
             // 
             // btnCancelar
             // 
@@ -135,7 +135,10 @@
             this.Controls.Add(this.grpBackup);
             this.Controls.Add(this.label7);
             this.Name = "Backup";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Backup";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Backup_FormClosing);
+            this.Load += new System.EventHandler(this.Backup_Load);
             this.grpBackup.ResumeLayout(false);
             this.grpBackup.PerformLayout();
             this.ResumeLayout(false);

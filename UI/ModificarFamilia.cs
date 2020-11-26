@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class ModificarFamilia : Form
+    public partial class ModificarFamilia : Form, Services.IIdiomaObserver
     {
         List<BE.Permiso> _listaAsignados;
         BLL.Permiso _permisoBll;
@@ -26,6 +26,7 @@ namespace UI
 
         private void ModificarFamilia_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             txtNombre.Text = familia.nombre;
             var lista = _permisoBll.GetAllPatentes();
             lboxPatNoAsig.DataSource = lista;
@@ -103,6 +104,50 @@ namespace UI
         private void CerrarVentana()
         {
             this.Close();
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblModificarFamilia.Name != null && traducciones.ContainsKey(lblModificarFamilia.Name.ToString()))
+                this.lblModificarFamilia.Text = traducciones[lblModificarFamilia.Name.ToString()].Texto;
+
+
+            if (lblNombre.Name != null && traducciones.ContainsKey(lblNombre.Name.ToString()))
+                this.lblNombre.Text = traducciones[lblNombre.Name.ToString()].Texto;
+
+
+            if (grpDatosDeFamilia.Name != null && traducciones.ContainsKey(grpDatosDeFamilia.Name.ToString()))
+                this.grpDatosDeFamilia.Text = traducciones[grpDatosDeFamilia.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (grpAsignarPatentes.Name != null && traducciones.ContainsKey(grpAsignarPatentes.Name.ToString()))
+                this.grpAsignarPatentes.Text = traducciones[grpAsignarPatentes.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (btnAsignar.Name != null && traducciones.ContainsKey(btnAsignar.Name.ToString()))
+                this.btnAsignar.Text = traducciones[btnAsignar.Name.ToString()].Texto;
+
+            if (btnDesasignar.Name != null && traducciones.ContainsKey(btnDesasignar.Name.ToString()))
+                this.btnDesasignar.Text = traducciones[btnDesasignar.Name.ToString()].Texto;
+        }
+        private void ModificarFamilia_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

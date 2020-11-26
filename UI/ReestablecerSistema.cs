@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class ReestablecerSistema : Form
+    public partial class ReestablecerSistema : Form, Services.IIdiomaObserver
     {
         BLL.Bitacora _bitacoraBll;
         List<BE.Bitacora> lista;
@@ -27,10 +27,12 @@ namespace UI
                 usuario = Services.SessionManager.GetInstance.Usuario;
             }
             InitializeComponent();
+            Traducir();
         }
 
         private void ReestablecerSistema_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             CargarGrilla();
             listaUsuarios = _usuarioBll.GetAll();
             Dictionary<int, string> comboSource = new Dictionary<int, string>();
@@ -66,7 +68,7 @@ namespace UI
         private void btnRestaurarBase_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Restaurar formRestaurar = new Restaurar();
+            Restaurar formRestaurar = new Restaurar(usuario);
             formRestaurar.MdiParent = this.ParentForm;
             formRestaurar.Show();
             formRestaurar.FormClosed += new FormClosedEventHandler(Form_Closed);
@@ -149,6 +151,54 @@ namespace UI
                     CargarGrilla(listaModif);
                 }
             }
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblReestablecerSistema.Name != null && traducciones.ContainsKey(lblReestablecerSistema.Name.ToString()))
+                this.lblReestablecerSistema.Text = traducciones[lblReestablecerSistema.Name.ToString()].Texto;
+
+
+            if (grpBitacora.Name != null && traducciones.ContainsKey(grpBitacora.Name.ToString()))
+                this.grpBitacora.Text = traducciones[grpBitacora.Name.ToString()].Texto;
+
+
+            if (lblUsuario.Name != null && traducciones.ContainsKey(lblUsuario.Name.ToString()))
+                this.lblUsuario.Text = traducciones[lblUsuario.Name.ToString()].Texto;
+
+            if (lblCriticidad.Name != null && traducciones.ContainsKey(lblCriticidad.Name.ToString()))
+                this.lblCriticidad.Text = traducciones[lblCriticidad.Name.ToString()].Texto;
+
+            if (lblFechaDesde.Name != null && traducciones.ContainsKey(lblFechaDesde.Name.ToString()))
+                this.lblFechaDesde.Text = traducciones[lblFechaDesde.Name.ToString()].Texto;
+
+            if (lblFechaHasta.Name != null && traducciones.ContainsKey(lblFechaHasta.Name.ToString()))
+                this.lblFechaHasta.Text = traducciones[lblFechaHasta.Name.ToString()].Texto;
+
+            if (btnRefrescar.Name != null && traducciones.ContainsKey(btnRefrescar.Name.ToString()))
+                this.btnRefrescar.Text = traducciones[btnRefrescar.Name.ToString()].Texto;
+
+            if (btnRestaurarBase.Name != null && traducciones.ContainsKey(btnRestaurarBase.Name.ToString()))
+                this.btnRestaurarBase.Text = traducciones[btnRestaurarBase.Name.ToString()].Texto;
+
+            if (btnReestablecerDigitos.Name != null && traducciones.ContainsKey(btnReestablecerDigitos.Name.ToString()))
+                this.btnReestablecerDigitos.Text = traducciones[btnReestablecerDigitos.Name.ToString()].Texto;
+        }
+
+        private void ReestablecerSistema_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

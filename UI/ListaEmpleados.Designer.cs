@@ -36,14 +36,14 @@
             this.grillaEmpleado = new System.Windows.Forms.DataGridView();
             this.lblListaEmpleados = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
             this.txtUsuarioSel = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpUsuarioElegido = new System.Windows.Forms.GroupBox();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnDesbloquear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grillaEmpleado)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.grpUsuarioElegido.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancelar
@@ -129,15 +129,15 @@
             this.label7.Text = "Logicar";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // lblUsuario
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(20, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 17);
-            this.label1.TabIndex = 74;
-            this.label1.Text = "Usuario";
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Font = new System.Drawing.Font("Monotype Corsiva", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(20, 28);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(52, 17);
+            this.lblUsuario.TabIndex = 74;
+            this.lblUsuario.Text = "Usuario";
             // 
             // txtUsuarioSel
             // 
@@ -147,20 +147,20 @@
             this.txtUsuarioSel.Size = new System.Drawing.Size(208, 20);
             this.txtUsuarioSel.TabIndex = 76;
             // 
-            // groupBox1
+            // grpUsuarioElegido
             // 
-            this.groupBox1.Controls.Add(this.btnModificar);
-            this.groupBox1.Controls.Add(this.btnEliminar);
-            this.groupBox1.Controls.Add(this.btnDesbloquear);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtUsuarioSel);
-            this.groupBox1.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(32, 83);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(694, 56);
-            this.groupBox1.TabIndex = 94;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Usuario Elegido";
+            this.grpUsuarioElegido.Controls.Add(this.btnModificar);
+            this.grpUsuarioElegido.Controls.Add(this.btnEliminar);
+            this.grpUsuarioElegido.Controls.Add(this.btnDesbloquear);
+            this.grpUsuarioElegido.Controls.Add(this.lblUsuario);
+            this.grpUsuarioElegido.Controls.Add(this.txtUsuarioSel);
+            this.grpUsuarioElegido.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpUsuarioElegido.Location = new System.Drawing.Point(32, 83);
+            this.grpUsuarioElegido.Name = "grpUsuarioElegido";
+            this.grpUsuarioElegido.Size = new System.Drawing.Size(694, 56);
+            this.grpUsuarioElegido.TabIndex = 94;
+            this.grpUsuarioElegido.TabStop = false;
+            this.grpUsuarioElegido.Text = "Usuario Elegido";
             // 
             // btnModificar
             // 
@@ -208,13 +208,15 @@
             this.Controls.Add(this.grillaEmpleado);
             this.Controls.Add(this.lblListaEmpleados);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grpUsuarioElegido);
             this.Name = "ListaEmpleados";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ListaEmpleados";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ListaEmpleados_FormClosing);
             this.Load += new System.EventHandler(this.ListaEmpleados_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grillaEmpleado)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grpUsuarioElegido.ResumeLayout(false);
+            this.grpUsuarioElegido.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,9 +232,9 @@
         private System.Windows.Forms.DataGridView grillaEmpleado;
         private System.Windows.Forms.Label lblListaEmpleados;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.TextBox txtUsuarioSel;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpUsuarioElegido;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnDesbloquear;

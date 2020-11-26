@@ -10,15 +10,17 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class AltaEmpleado : Form
+    public partial class AltaEmpleado : Form, Services.IIdiomaObserver
     {
         public AltaEmpleado()
         {
             InitializeComponent();
+            Traducir();
         }
 
         private void AltaEmpleado_Load(object sender, EventArgs e)
         {
+            Services.SessionManager.SuscribirObservador(this);
             Dictionary<int, string> comboSource = new Dictionary<int, string>();
             comboSource.Add(1, "DNI");
             comboSource.Add(2, "CUIL");
@@ -87,6 +89,57 @@ namespace UI
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public void UpdateLanguage(BE.Idioma idioma)
+        {
+            Traducir();
+        }
+        private void Traducir()
+        {
+            BE.Idioma idioma = null;
+            if (Services.SessionManager.IsLogged())
+                idioma = Services.SessionManager.GetInstance.Idioma;
+
+
+            var traducciones = Services.Traductor.ObtenerTraducciones(idioma);
+
+            if (lblAltaDeEmpleado.Name != null && traducciones.ContainsKey(lblAltaDeEmpleado.Name.ToString()))
+                this.lblAltaDeEmpleado.Text = traducciones[lblAltaDeEmpleado.Name.ToString()].Texto;
+
+
+            if (lblNombre.Name != null && traducciones.ContainsKey(lblNombre.Name.ToString()))
+                this.lblNombre.Text = traducciones[lblNombre.Name.ToString()].Texto;
+
+
+            if (lblApellido.Name != null && traducciones.ContainsKey(lblApellido.Name.ToString()))
+                this.lblApellido.Text = traducciones[lblApellido.Name.ToString()].Texto;
+
+            if (btnAceptar.Name != null && traducciones.ContainsKey(btnAceptar.Name.ToString()))
+                this.btnAceptar.Text = traducciones[btnAceptar.Name.ToString()].Texto;
+
+            if (lblTipoDoc.Name != null && traducciones.ContainsKey(lblTipoDoc.Name.ToString()))
+                this.lblTipoDoc.Text = traducciones[lblTipoDoc.Name.ToString()].Texto;
+
+            if (btnCancelar.Name != null && traducciones.ContainsKey(btnCancelar.Name.ToString()))
+                this.btnCancelar.Text = traducciones[btnCancelar.Name.ToString()].Texto;
+
+            if (lblNroDoc.Name != null && traducciones.ContainsKey(lblNroDoc.Name.ToString()))
+                this.lblNroDoc.Text = traducciones[lblNroDoc.Name.ToString()].Texto;
+
+            if (lblDomicilio.Name != null && traducciones.ContainsKey(lblDomicilio.Name.ToString()))
+                this.lblDomicilio.Text = traducciones[lblDomicilio.Name.ToString()].Texto;
+
+            if (lblEmail.Name != null && traducciones.ContainsKey(lblEmail.Name.ToString()))
+                this.lblEmail.Text = traducciones[lblEmail.Name.ToString()].Texto;
+
+            if (lblTelefono.Name != null && traducciones.ContainsKey(lblTelefono.Name.ToString()))
+                this.lblTelefono.Text = traducciones[lblTelefono.Name.ToString()].Texto;
+        }
+
+        private void AltaEmpleado_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Services.SessionManager.DesuscribirObservador(this);
         }
     }
 }

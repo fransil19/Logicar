@@ -119,6 +119,51 @@ namespace UI
             if (tsmiIdiomas.Name != null && traducciones.ContainsKey(tsmiIdiomas.Name.ToString()))
                 this.tsmiIdiomas.Text = traducciones[tsmiIdiomas.Name.ToString()].Texto;
 
+            if (tsmiCambiarPass.Name != null && traducciones.ContainsKey(tsmiCambiarPass.Name.ToString()))
+                this.tsmiCambiarPass.Text = traducciones[tsmiCambiarPass.Name.ToString()].Texto;
+
+            if (mnuAdministrarEmpleados.Name != null && traducciones.ContainsKey(mnuAdministrarEmpleados.Name.ToString()))
+                this.mnuAdministrarEmpleados.Text = traducciones[mnuAdministrarEmpleados.Name.ToString()].Texto;
+
+            if (mnuAdministrarFamilias.Name != null && traducciones.ContainsKey(mnuAdministrarFamilias.Name.ToString()))
+                this.mnuAdministrarFamilias.Text = traducciones[mnuAdministrarFamilias.Name.ToString()].Texto;
+
+            if (mnuAdministrarClientes.Name != null && traducciones.ContainsKey(mnuAdministrarClientes.Name.ToString()))
+                this.mnuAdministrarClientes.Text = traducciones[mnuAdministrarClientes.Name.ToString()].Texto;
+
+            if (mnuBitacora.Name != null && traducciones.ContainsKey(mnuBitacora.Name.ToString()))
+                this.mnuBitacora.Text = traducciones[mnuBitacora.Name.ToString()].Texto;
+
+            if (mnuCompras.Name != null && traducciones.ContainsKey(mnuCompras.Name.ToString()))
+                this.mnuCompras.Text = traducciones[mnuCompras.Name.ToString()].Texto;
+
+            if (mnuReportes.Name != null && traducciones.ContainsKey(mnuReportes.Name.ToString()))
+                this.mnuReportes.Text = traducciones[mnuReportes.Name.ToString()].Texto;
+
+            if (mnuRespaldo.Name != null && traducciones.ContainsKey(mnuRespaldo.Name.ToString()))
+                this.mnuRespaldo.Text = traducciones[mnuRespaldo.Name.ToString()].Texto;
+
+            if (mnuVentas.Name != null && traducciones.ContainsKey(mnuVentas.Name.ToString()))
+                this.mnuVentas.Text = traducciones[mnuVentas.Name.ToString()].Texto;
+
+            if (tsmiAdquirirVehiculo.Name != null && traducciones.ContainsKey(tsmiAdquirirVehiculo.Name.ToString()))
+                this.tsmiAdquirirVehiculo.Text = traducciones[tsmiAdquirirVehiculo.Name.ToString()].Texto;
+
+            if (tsmiAltaDeVehiculo.Name != null && traducciones.ContainsKey(tsmiAltaDeVehiculo.Name.ToString()))
+                this.tsmiAltaDeVehiculo.Text = traducciones[tsmiAltaDeVehiculo.Name.ToString()].Texto;
+
+            if (tsmiBackup.Name != null && traducciones.ContainsKey(tsmiBackup.Name.ToString()))
+                this.tsmiBackup.Text = traducciones[tsmiBackup.Name.ToString()].Texto;
+
+            if (tsmiReporteDeVentas.Name != null && traducciones.ContainsKey(tsmiReporteDeVentas.Name.ToString()))
+                this.tsmiReporteDeVentas.Text = traducciones[tsmiReporteDeVentas.Name.ToString()].Texto;
+
+            if (tsmiRestaurar.Name != null && traducciones.ContainsKey(tsmiRestaurar.Name.ToString()))
+                this.tsmiRestaurar.Text = traducciones[tsmiRestaurar.Name.ToString()].Texto;
+
+            if (tsmiVenderVehiculo.Name != null && traducciones.ContainsKey(tsmiVenderVehiculo.Name.ToString()))
+                this.tsmiVenderVehiculo.Text = traducciones[tsmiVenderVehiculo.Name.ToString()].Texto;
+
             MarcarIdioma();
         }
 
@@ -163,6 +208,40 @@ namespace UI
                 {
                     mnuRespaldo.Visible = false;
                 }
+                mnuBitacora.Visible = Services.SessionManager.GetInstance.TienePermiso(mnuBitacora.Tag.ToString());
+
+                tsmiAdquirirVehiculo.Enabled = Services.SessionManager.GetInstance.TienePermiso(tsmiAdquirirVehiculo.Tag.ToString());
+                tsmiAltaDeVehiculo.Enabled = Services.SessionManager.GetInstance.TienePermiso(tsmiAltaDeVehiculo.Tag.ToString());
+                if (tsmiAdquirirVehiculo.Enabled || tsmiAltaDeVehiculo.Enabled)
+                {
+                    mnuCompras.Visible = true;
+                }
+                else
+                {
+                    mnuCompras.Visible = false;
+                }
+
+                tsmiVenderVehiculo.Enabled = Services.SessionManager.GetInstance.TienePermiso(tsmiVenderVehiculo.Tag.ToString());
+                if (tsmiVenderVehiculo.Enabled)
+                {
+                    mnuVentas.Visible = true;
+                }
+                else
+                {
+                    mnuVentas.Visible = false;
+                }
+
+                tsmiReporteDeVentas.Enabled = Services.SessionManager.GetInstance.TienePermiso(tsmiReporteDeVentas.Tag.ToString());
+                if (tsmiReporteDeVentas.Enabled)
+                {
+                    mnuReportes.Visible = true;
+                }
+                else
+                {
+                    mnuReportes.Visible = false;
+                }
+
+                mnuAdministrarClientes.Enabled = Services.SessionManager.GetInstance.TienePermiso(mnuAdministrarClientes.Tag.ToString());
             }
             else
             {
@@ -171,6 +250,15 @@ namespace UI
                 tsmiBackup.Enabled = false;
                 tsmiRestaurar.Enabled = false;
                 mnuRespaldo.Visible = false;
+                mnuBitacora.Visible = false;
+                tsmiAdquirirVehiculo.Enabled = false;
+                tsmiAltaDeVehiculo.Enabled = false;
+                mnuCompras.Visible = false;
+                tsmiVenderVehiculo.Enabled = false;
+                mnuVentas.Visible = false;
+                tsmiReporteDeVentas.Enabled = false;
+                mnuReportes.Visible = false;
+                mnuAdministrarClientes.Enabled = false;
             }
         }
 
@@ -196,6 +284,71 @@ namespace UI
                     MessageBox.Show(exp.Message);
                 }
             }
+        }
+
+        private void tsmiBackup_Click(object sender, EventArgs e)
+        {
+            Backup frmBackup = new Backup();
+            frmBackup.MdiParent = this;
+            frmBackup.Show();
+        }
+
+        private void tsmiRestaurar_Click(object sender, EventArgs e)
+        {
+            Restaurar frmRestaurar = new Restaurar();
+            frmRestaurar.MdiParent = this;
+            frmRestaurar.Show();
+        }
+
+        private void tsmiLogout_Click(object sender, EventArgs e)
+        {
+            BLL.Bitacora _bitacoraBll = new BLL.Bitacora();
+            var usuario = Services.SessionManager.GetInstance.Usuario;
+            _bitacoraBll.RegistrarBitacora(usuario, $@"El usuario {BLL.Cifrado.Encriptar(usuario.usuario,true)} salio del sistema", 3);
+            Services.SessionManager.Logout();
+            this.Close();
+        }
+
+        private void mnuBitacora_Click(object sender, EventArgs e)
+        {
+            Bitacora formBitacora = new Bitacora();
+            formBitacora.MdiParent = this;
+            formBitacora.Show();
+        }
+
+        private void tsmiAdquirirVehiculo_Click(object sender, EventArgs e)
+        {
+            AdquirirVehiculo formAdquirirVehiculo = new AdquirirVehiculo();
+            formAdquirirVehiculo.MdiParent = this;
+            formAdquirirVehiculo.Show();
+        }
+
+        private void tsmiAltaDeVehiculo_Click(object sender, EventArgs e)
+        {
+            AltaVehiculo formAltaVehiculo = new AltaVehiculo();
+            formAltaVehiculo.MdiParent = this;
+            formAltaVehiculo.Show();
+        }
+
+        private void tsmiVenderVehiculo_Click(object sender, EventArgs e)
+        {
+            VenderVehiculo formVenderVehiculo = new VenderVehiculo();
+            formVenderVehiculo.MdiParent = this;
+            formVenderVehiculo.Show();
+        }
+
+        private void tsmiReporteDeVentas_Click(object sender, EventArgs e)
+        {
+            ReporteVentas formReporteVentas = new ReporteVentas();
+            formReporteVentas.MdiParent = this;
+            formReporteVentas.Show();
+        }
+
+        private void mnuAdministrarClientes_Click(object sender, EventArgs e)
+        {
+            ListaClientes formListaClientes = new ListaClientes();
+            formListaClientes.MdiParent = this;
+            formListaClientes.Show();
         }
     }
 }
